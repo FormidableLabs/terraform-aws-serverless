@@ -11,4 +11,5 @@ package-lock.json
 aws/.service*
 
 .serverless
+.terraform
 _warmup

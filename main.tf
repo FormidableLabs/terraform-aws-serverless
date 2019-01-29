@@ -3,7 +3,6 @@
 #   region  = "${var.region}"
 #   version = "~> 1.19"
 # }
-
 # TODO: Move all of this to integrating app and document?
 # terraform {
 #   backend "s3" {
@@ -12,3 +11,4 @@
 #     region = "us-east-1"
 #   }
 # }
+

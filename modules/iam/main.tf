@@ -11,13 +11,13 @@
 # - http://awspolicygen.s3.amazonaws.com/policygen.html
 ###############################################################################
 resource "aws_iam_group" "admin" {
-  name = "${local.tf_service_name}-${var.environment}-admin"
+  name = "${local.tf_service_name}-${var.stage}-admin"
 }
 
 resource "aws_iam_group" "developer" {
-  name = "${local.tf_service_name}-${var.environment}-developer"
+  name = "${local.tf_service_name}-${var.stage}-developer"
 }
 
 resource "aws_iam_group" "ci" {
-  name = "${local.tf_service_name}-${var.environment}-ci"
+  name = "${local.tf_service_name}-${var.stage}-ci"
 }

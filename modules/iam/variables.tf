@@ -34,3 +34,8 @@ variable "sls_service_name" {
   description = "The service name from Serverless configuration. Defaults to: `sls-SERVICE_NAME`."
   default     = ""
 }
+
+locals {
+  tf_service_name = "${var.tf_service_name != "" ? var.tf_service_name : "tf-${var.service_name}"}"
+  sls_service_name = "${var.sls_service_name != "" ? var.sls_service_name : "sls-${var.service_name}"}"
+}

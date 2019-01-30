@@ -1,22 +1,9 @@
-
 ###############################################################################
 # Policy: Admin
 ###############################################################################
 
 data "aws_iam_policy_document" "admin" {
   # CloudFormation: Create the lambda service
-  statement {
-    actions = [
-      "cloudformation:ListStacks",
-      "cloudformation:PreviewStackUpdate",
-    ]
-
-    # Necessary wildcards
-    # https://iam.cloudonaut.io/reference/cloudformation
-    resources = [
-      "*",
-    ]
-  }
   statement {
     actions = [
       "cloudformation:ListStacks",
@@ -40,10 +27,11 @@ data "aws_iam_policy_document" "admin" {
     ]
 
     resources = [
-      "arn:${local.partition}:cloudformation:${local.iam_region}:${local.account_id}:stack/${local.tf_service_name}-${local.stage}/*",
+      "arn:${local.partition}:cloudformation:${local.iam_region}:${local.account_id}:stack/${local.sls_service_name}-${local.stage}/*",
     ]
   }
 
+  # TODO HERE
 }
 
 # IamPolicyAdmin:
@@ -54,26 +42,7 @@ data "aws_iam_policy_document" "admin" {
 #         Version: "2012-10-17"
 #         Statement:
 
-#         # CloudFormation: Create the lambda service
-#         - Effect: Allow
-#           Action:
-#           - cloudformation:ListStacks
-#           - cloudformation:PreviewStackUpdate
-#           Resource:
-#           # Necessary wildcards
-#           # https://iam.cloudonaut.io/reference/cloudformation
-#           - "*"
-#         - Effect: Allow
-#           Action:
-#           - cloudformation:CreateStack
-#           - cloudformation:CreateUploadBucket
-#           - cloudformation:ListChangeSets
-#           - cloudformation:ListStackResources
-#           - cloudformation:Get*
-#           - cloudformation:DeleteStack
-#           Resource:
-#           - !Sub "arn:${AWS::Partition}:cloudformation:${AwsRegion}:${AWS::AccountId}:stack/sls-${ServiceName}-${Stage}/*"
-
+#         # CloudFormation: Create the lambda service (DONE)
 #         # S3: Upload the lambda service files.
 #         - Effect: Allow
 #           Action:

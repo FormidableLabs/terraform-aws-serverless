@@ -38,6 +38,21 @@ data "aws_iam_policy_document" "developer" {
       "arn:${local.partition}:cloudformation:${local.iam_region}:${local.account_id}:stack/${local.sls_service_name}-${local.stage}/*",
     ]
   }
+
+  # S3 (`sls deploy`)
+  statement {
+    actions = [
+      "s3:ListBucketVersions",
+      "s3:PutObject",
+      "s3:GetObject",
+      "s3:ListBucket",
+      "s3:DeleteObject",
+    ]
+
+    resources = [
+      "${local.sls_deploy_bucket_arn}",
+    ]
+  }
 }
 
 # IamPolicyDeveloper:
@@ -50,19 +65,7 @@ data "aws_iam_policy_document" "developer" {
 
 
 #         # CloudFormation (`sls deploy`). (DONE)
-
-
-#         # S3 (`sls deploy`)
-#         - Effect: Allow
-#           Action:
-#           - s3:ListBucketVersions
-#           - s3:PutObject
-#           - s3:GetObject
-#           - s3:ListBucket
-#           - s3:DeleteObject
-#           Resource:
-#           # - No region or account id allowed
-#           - !Sub "arn:${AWS::Partition}:s3:::sls-${ServiceName}-*-serverlessdeployment*-*"
+#         # S3 (`sls deploy`). (DONE)
 
 
 #         # IAM (`sls deploy`)

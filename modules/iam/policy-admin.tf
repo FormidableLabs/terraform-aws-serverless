@@ -49,12 +49,7 @@ data "aws_iam_policy_document" "admin" {
     ]
 
     resources = [
-      # **Notes**:
-      # - A long service name can endup with truncated bucket names like:
-      #   `sls-SERVICE-de-serverlessdeploymentbuck-47ati3in2360`
-      #   and possibly even more truncated, so we take a conservative approach.
-      # - No region or account id allowed. https://iam.cloudonaut.io/reference/s3.html
-      "arn:${local.partition}:s3:::${local.sls_service_name}-*-serverless*-*",
+      "${local.sls_deploy_bucket_arn}",
     ]
   }
 

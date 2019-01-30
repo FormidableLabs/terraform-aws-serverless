@@ -31,11 +31,6 @@ resource "aws_iam_group" "ci" {
   name = "${local.tf_service_name}-${local.stage}-ci"
 }
 
-resource "aws_iam_group_policy_attachment" "ci_ci" {
-  group      = "${aws_iam_group.ci.name}"
-  policy_arn = "${aws_iam_policy.ci.arn}"
-}
-
 resource "aws_iam_group_policy_attachment" "ci_developer" {
   group      = "${aws_iam_group.ci.name}"
   policy_arn = "${aws_iam_policy.developer.arn}"

@@ -137,7 +137,33 @@ data "aws_iam_policy_document" "admin" {
     ]
   }
 
-  # TODO HERE
+  # CloudWatch Events
+  # https://serverless.com/framework/docs/providers/aws/events/cloudwatch-event/
+  statement {
+    actions = [
+      "events:Put*",
+      "events:Remove*",
+      "events:Delete*",
+    ]
+
+    resources = [
+      "arn:${local.partition}:events:${local.iam_region}:${local.account_id}:rule/${local.sls_service_name}-${local.stage}",
+    ]
+  }
+
+  # CloudWatch Metrics (Needed for `sls metrics`)
+  statement {
+    # Required to view graphs in other parts of the CloudWatch console and in dashboard widgets.
+    actions = [
+      "cloudwatch:GetMetricStatistics",
+    ]
+
+    # `This service does not have ARNs, so "*" will be used.`
+    # https://iam.cloudonaut.io/reference/cloudwatch/GetMetricStatistics.html
+    resources = [
+      "*",
+    ]
+  }
 }
 
 # IamPolicyAdmin:
@@ -147,26 +173,16 @@ data "aws_iam_policy_document" "admin" {
 #       PolicyDocument:
 #         Version: "2012-10-17"
 #         Statement:
-
-
 #         # CloudFormation: Create the lambda service (DONE)
 #         # S3: Upload the lambda service files. (DONE)
 #         # Lambda: Create, update, delete the service. (DONE)
 #         # IAM (allow creating and use of IAM roles). (DONE)
 #         # Logs (`sls logs`). (DONE)
-
-#         # CloudWatch Events
-#         # https://serverless.com/framework/docs/providers/aws/events/cloudwatch-event/
-#         - Effect: Allow
-#           Action:
-#           - events:Put*
-#           - events:Remove*
-#           - events:Delete*
-#           Resource:
-#           - !Sub "arn:${AWS::Partition}:events:${AwsRegion}:${AWS::AccountId}:rule/sls-${ServiceName}-${Stage}"
+#         # CloudWatch Events. (DONE)
+#         # CloudWatch (Needed for `sls metrics`). (DONE)
 
 
-#         # Xray: view traces
+#         # TODO: Xray: view traces
 #         - Effect: Allow
 #           Action:
 #           - xray:BatchGetTraces
@@ -180,7 +196,7 @@ data "aws_iam_policy_document" "admin" {
 #           - "*"
 
 
-#         # KMS: Manage keys
+#         # TODO: KMS: Manage keys
 #         - Effect: Allow
 #           Action:
 #           - kms:Create*
@@ -201,7 +217,7 @@ data "aws_iam_policy_document" "admin" {
 #           - !GetAtt KmsKey.Arn
 
 
-#         # SecretsManager: Manage secrets
+#         # TODO: SecretsManager: Manage secrets
 #         - Effect: Allow
 #           Action:
 #           - secretsmanager:DescribeSecret
@@ -217,15 +233,4 @@ data "aws_iam_policy_document" "admin" {
 #           - secretsmanager:DeleteSecret
 #           Resource:
 #           - !Sub "arn:aws:secretsmanager:${AwsRegion}:${AWS::AccountId}:secret:${ServiceName}/${Stage}/*"
-
-
-#         # CloudWatch (Needed for `sls metrics`)
-#         - Effect: Allow
-#           Action:
-#           # Required to view graphs in other parts of the CloudWatch console and in dashboard widgets.
-#           # https://iam.cloudonaut.io/reference/cloudwatch/GetMetricStatistics.html
-#           - cloudwatch:GetMetricStatistics
-#           Resource:
-#           # `This service does not have ARNs, so "*" will be used.`
-#           - "*"
 

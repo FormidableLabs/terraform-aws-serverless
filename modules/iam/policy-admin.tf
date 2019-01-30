@@ -60,14 +60,45 @@ data "aws_iam_policy_document" "admin" {
 
     # Necessary wildcards
     # https://iam.cloudonaut.io/reference/lambda
-    resources = ["*"]
+    resources = [
+      "*",
+    ]
   }
 
   statement {
-    actions = ["lambda:DeleteFunction"]
+    actions = [
+      "lambda:DeleteFunction",
+    ]
 
     # `sls-SERVICE-STAGE-${Handler/Function Name}`
-    resources = ["arn:${local.partition}:lambda:${local.iam_region}:${local.account_id}:function:${local.sls_service_name}-${local.stage}-*"]
+    resources = [
+      "arn:${local.partition}:lambda:${local.iam_region}:${local.account_id}:function:${local.sls_service_name}-${local.stage}-*",
+    ]
+  }
+
+  # IAM: Allow the built-in serverless framework and our custom Lambda Roles
+  # to hook up to the Lambda.
+  # - https://github.com/serverless/serverless/issues/1439#issuecomment-363383862
+  # - https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html
+  statement {
+    actions = [
+      "iam:GetRole",
+      "iam:CreateRole",
+      "iam:DeleteRole",
+      "iam:DetachRolePolicy",
+      "iam:PassRole",
+      "iam:PutRolePolicy",
+      "iam:AttachRolePolicy",
+      "iam:DeleteRolePolicy",
+    ]
+
+    # TODO: LAMBDA EXECUTION ROLE POINTER
+
+    resources = [
+      # The stock serverless Lambda execution role.
+      # No region allowed. See https://iam.cloudonaut.io/reference/iam.html
+      "arn:${local.partition}:iam::${local.account_id}:role/${local.sls_service_name}-${local.stage}-${local.region}-lambdaRole",
+    ]
   }
 
   # TODO HERE
@@ -85,26 +116,7 @@ data "aws_iam_policy_document" "admin" {
 #         # CloudFormation: Create the lambda service (DONE)
 #         # S3: Upload the lambda service files. (DONE)
 #         # Lambda: Create, update, delete the service. (DONE)
-
-
-#         # IAM (allow creating and use of IAM roles)
-#         # - https://github.com/serverless/serverless/issues/1439#issuecomment-363383862
-#         # - https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html
-#         - Effect: Allow
-#           Action:
-#           - iam:GetRole
-#           - iam:CreateRole
-#           - iam:DeleteRole
-#           - iam:DetachRolePolicy
-#           - iam:PassRole
-#           - iam:PutRolePolicy
-#           - iam:AttachRolePolicy
-#           - iam:DeleteRolePolicy
-#           Resource:
-#           - !GetAtt IamRoleLambdaExecution.Arn
-#           # No region allowed
-#           - !Sub "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/sls-${ServiceName}-${Stage}-${AwsRegion}-lambdaRole"
-
+#         # IAM (allow creating and use of IAM roles). (DONE)
 
 #         # Logs (`sls logs`)
 #         - Effect: Allow

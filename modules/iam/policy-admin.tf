@@ -96,8 +96,44 @@ data "aws_iam_policy_document" "admin" {
 
     resources = [
       # The stock serverless Lambda execution role.
-      # No region allowed. See https://iam.cloudonaut.io/reference/iam.html
-      "arn:${local.partition}:iam::${local.account_id}:role/${local.sls_service_name}-${local.stage}-${local.region}-lambdaRole",
+      #
+      # Note that we use `iam_region` to potentially wildcard the IAM permission
+      # in the actual name of the role.
+      #
+      # No region allowed in ARN. See https://iam.cloudonaut.io/reference/iam.html
+      "arn:${local.partition}:iam::${local.account_id}:role/${local.sls_service_name}-${local.stage}-${local.iam_region}-lambdaRole",
+    ]
+  }
+
+  # Logs (`sls logs`)
+  statement {
+    actions = [
+      "logs:DescribeLogStreams",
+      "logs:DescribeLogGroups",
+    ]
+
+    # https://iam.cloudonaut.io/reference/logs.html
+    resources = [
+      # sls deploy (create stack) needs this, doing a request to:
+      # `arn:aws:logs:REGION:ACCOUNT:log-group::log-stream:`
+      "arn:${local.partition}:logs:${local.iam_region}:${local.account_id}:log-group::log-stream:",
+
+      # Console log drill-down needs this permission.
+      "arn:${local.partition}:logs:${local.iam_region}:${local.account_id}:log-group:aws/lambda/${local.sls_service_name}-${local.stage}-*:log-stream:",
+    ]
+  }
+
+  statement {
+    actions = [
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:DeleteLogGroup",
+      "logs:PutLogEvents",
+    ]
+
+    resources = [
+      # sls deploy needs this.
+      "arn:${local.partition}:logs:${local.iam_region}:${local.account_id}:log-group:aws/lambda/${local.sls_service_name}-${local.stage}-*:log-stream:",
     ]
   }
 
@@ -117,29 +153,7 @@ data "aws_iam_policy_document" "admin" {
 #         # S3: Upload the lambda service files. (DONE)
 #         # Lambda: Create, update, delete the service. (DONE)
 #         # IAM (allow creating and use of IAM roles). (DONE)
-
-#         # Logs (`sls logs`)
-#         - Effect: Allow
-#           Action:
-#           - logs:DescribeLogStreams
-#           - logs:DescribeLogGroups
-#           Resource:
-#           # https://iam.cloudonaut.io/reference/logs.html
-#           # sls deploy (create stack) needs this, doing a request to:
-#           # `arn:aws:logs:REGION:ACCOUNT:log-group::log-stream:`
-#           - !Sub "arn:${AWS::Partition}:logs:${AwsRegion}:${AWS::AccountId}:log-group::log-stream:"
-#           # Console log drill-down needs this permission.
-#           - !Sub "arn:${AWS::Partition}:logs:${AwsRegion}:${AWS::AccountId}:log-group:aws/lambda/sls-${ServiceName}-${Stage}-*:log-stream:"
-#         - Effect: Allow
-#           Action:
-#           - logs:CreateLogGroup
-#           - logs:CreateLogStream
-#           - logs:DeleteLogGroup
-#           - logs:PutLogEvents
-#           Resource:
-#            # `sls-${ServiceName}-${Stage}-${Handler/Function Name}`
-#           - !Sub "arn:${AWS::Partition}:logs:${AwsRegion}:${AWS::AccountId}:log-group:/aws/lambda/sls-${ServiceName}-${Stage}-*:log-stream:"
-
+#         # Logs (`sls logs`). (DONE)
 
 #         # CloudWatch Events
 #         # https://serverless.com/framework/docs/providers/aws/events/cloudwatch-event/

@@ -68,6 +68,32 @@ data "aws_iam_policy_document" "developer" {
       "${local.sls_lambda_role_arn}",
     ]
   }
+
+  # Lambda (`sls deploy`)
+  statement {
+    # Note:
+    # - `UpdateEventSourceMapping`: We don't include, but not it has a very
+    #   differently structured ARN if we later add it. See, e.g.
+    #   https://iam.cloudonaut.io/reference/lambda/UpdateEventSourceMapping.html
+    actions = [
+      "lambda:GetAlias",
+      "lambda:GetFunction",
+      "lambda:GetFunctionConfiguration",
+      "lambda:GetPolicy",
+      "lambda:ListAliases",
+      "lambda:ListVersionsByFunction",
+      "lambda:AddPermission",
+      "lambda:CreateAlias",
+      "lambda:InvokeFunction",
+      "lambda:PublishVersion",
+      "lambda:RemovePermission",
+      "lambda:Update*",
+    ]
+
+    resources = [
+      "${local.sls_lambda_arn}",
+    ]
+  }
 }
 
 # IamPolicyDeveloper:
@@ -81,38 +107,8 @@ data "aws_iam_policy_document" "developer" {
 
 #         # CloudFormation (`sls deploy`). (DONE)
 #         # S3 (`sls deploy`). (DONE)
-
-
-#         # IAM (`sls deploy`)
-#         - Effect: Allow
-#           Action:
-#           - iam:GetRole
-#           Resource:
-#           - !GetAtt IamRoleLambdaExecution.Arn
-#           # No region allowed
-#           - !Sub "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/sls-${ServiceName}-${Stage}-${AwsRegion}-lambdaRole"
-
-
-#         # Lambda (`sls deploy`)
-#         - Effect: Allow
-#           Action:
-#           - lambda:GetAlias
-#           - lambda:GetFunction
-#           - lambda:GetFunctionConfiguration
-#           - lambda:GetPolicy
-#           - lambda:ListAliases
-#           - lambda:ListVersionsByFunction
-#           - lambda:AddPermission
-#           - lambda:CreateAlias
-#           - lambda:InvokeFunction
-#           - lambda:PublishVersion
-#           - lambda:RemovePermission
-#           # Note: `UpdateEventSourceMapping` looks like wrong ARN
-#           # https://iam.cloudonaut.io/reference/lambda/UpdateEventSourceMapping.html
-#           - lambda:Update*
-#           Resource:
-#           # `sls-${ServiceName}-${Stage}-${Handler/Function Name}`
-#           - !Sub "arn:${AWS::Partition}:lambda:${AwsRegion}:${AWS::AccountId}:function:sls-${ServiceName}-${Stage}-*"
+#         # IAM (`sls deploy`). (DONE)
+#         # Lambda (`sls deploy`). (DONE)
 
 
 #         # API Gateway (`sls deploy`)

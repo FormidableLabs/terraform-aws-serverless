@@ -102,7 +102,7 @@ data "aws_iam_policy_document" "admin" {
     ]
   }
 
-  # Logs (`sls logs`)
+  # Logs (`sls deploy`, `sls logs`)
   statement {
     actions = [
       "logs:DescribeLogStreams", # TODO: CAN THIS GO BELOW ALONG WITH SPECIFIC ARN? OR THE OTHER ONE?
@@ -125,8 +125,7 @@ data "aws_iam_policy_document" "admin" {
     ]
 
     resources = [
-      # sls deploy needs this.
-      "arn:${local.partition}:logs:${local.iam_region}:${local.account_id}:log-group:aws/lambda/${local.sls_service_name}-${local.stage}-*:log-stream:",
+      "${local.sls_log_stream}",
     ]
   }
 

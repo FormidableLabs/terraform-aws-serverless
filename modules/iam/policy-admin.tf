@@ -111,8 +111,8 @@ data "aws_iam_policy_document" "admin" {
 
     # https://iam.cloudonaut.io/reference/logs.html
     resources = [
-      "${local.aws_all_log_streams}", # TODO: CAN WE GET RID OF THIS?
-      "${local.sls_log_stream}",
+      "${local.aws_all_log_streams_arn}", # TODO: CAN WE GET RID OF THIS?
+      "${local.sls_log_stream_arn}",
     ]
   }
 
@@ -125,7 +125,7 @@ data "aws_iam_policy_document" "admin" {
     ]
 
     resources = [
-      "${local.sls_log_stream}",
+      "${local.sls_log_stream_arn}",
     ]
   }
 
@@ -139,7 +139,7 @@ data "aws_iam_policy_document" "admin" {
     ]
 
     resources = [
-      "arn:${local.partition}:events:${local.iam_region}:${local.account_id}:rule/${local.sls_service_name}-${local.stage}",
+      "${local.sls_events_arn}",
     ]
   }
 

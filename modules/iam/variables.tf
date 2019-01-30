@@ -80,10 +80,13 @@ locals {
 
   # All AWS log streams. This is pretty broad, but`sls deploy` (create stack).
   # needs this, doing a request to: `arn:aws:logs:REGION:ACCOUNT:log-group::log-stream:`
-  aws_all_log_streams = "arn:${local.partition}:logs:${local.iam_region}:${local.account_id}:log-group::log-stream:"
+  aws_all_log_streams_arn = "arn:${local.partition}:logs:${local.iam_region}:${local.account_id}:log-group::log-stream:"
 
   # Serverless created log stream.
-  sls_log_stream = "arn:${local.partition}:logs:${local.iam_region}:${local.account_id}:log-group:aws/lambda/${local.sls_service_name}-${local.stage}-*:log-stream:"
+  sls_log_stream_arn = "arn:${local.partition}:logs:${local.iam_region}:${local.account_id}:log-group:aws/lambda/${local.sls_service_name}-${local.stage}-*:log-stream:"
+
+  # Serverless created CloudWatch events.
+  sls_events_arn = "arn:${local.partition}:events:${local.iam_region}:${local.account_id}:rule/${local.sls_service_name}-${local.stage}"
 
   # Serverless lambda function ARN.
   sls_lambda_arn = "arn:${local.partition}:lambda:${local.iam_region}:${local.account_id}:function:${local.sls_service_name}-${local.stage}-*"

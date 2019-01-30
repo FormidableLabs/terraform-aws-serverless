@@ -98,4 +98,19 @@ locals {
   #
   # No region allowed in ARN. See https://iam.cloudonaut.io/reference/iam.html
   sls_lambda_role_arn = "arn:${local.partition}:iam::${local.account_id}:role/${local.sls_service_name}-${local.stage}-${local.iam_region}-lambdaRole"
+
+  # The serverless created APIGW.
+  #
+  # **NOTE**: This is difficult to lock down because we need the actual
+  # `$api-id` for a `!Ref` which we don't know ahead of time. It's
+  # created dynamically as a part of `sls` provisioning.
+  #
+  # See:
+  # - https://iam.cloudonaut.io/reference/apigateway.html
+  # - https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-control-access-using-iam-policies-to-invoke-api.html
+  #
+  # - No partition. TODO_CHECK (has to be AWS?)
+  # - No account. TODO_CHECK
+  # eg arn:aws:apigateway:us-east-1::/restapis/ibln8d639e/deployments
+  sls_apigw_arn = "arn:aws:apigateway:${local.iam_region}:*:/restapis*"
 }

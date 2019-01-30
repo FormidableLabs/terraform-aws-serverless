@@ -49,6 +49,7 @@ data "aws_partition" "current" {}
 data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
 
+# AWS / Serverless framework configuration.
 locals {
   partition        = "${var.partition != "" ? var.partition : data.aws_partition.current.partition}"
   account_id       = "${var.account_id != "" ? var.account_id : data.aws_caller_identity.current.account_id}"
@@ -63,6 +64,12 @@ locals {
     "Service", "${var.service_name}",
     "Stage", "${var.stage}",
   )}"
+}
+
+# Capture repeated/complicated AWS resources to a single location.
+locals {
+  # Serverless CloudFormation stack ARN.
+  sls_cloudformation_arn = "arn:${local.partition}:cloudformation:${local.iam_region}:${local.account_id}:stack/${local.sls_service_name}-${local.stage}/*"
 
   # Capture the serverless target deployment bucket ARN.
   # - A long service name can endup with truncated bucket names like:

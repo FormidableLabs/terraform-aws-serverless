@@ -37,7 +37,7 @@ data "aws_iam_policy_document" "admin" {
     ]
 
     resources = [
-      "arn:${local.partition}:cloudformation:${local.iam_region}:${local.account_id}:stack/${local.sls_service_name}-${local.stage}/*",
+      "${local.sls_cloudformation_arn}",
     ]
   }
 

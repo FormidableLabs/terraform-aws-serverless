@@ -42,11 +42,32 @@ data "aws_iam_policy_document" "admin" {
     resources = [
       # **Notes**:
       # - A long service name can endup with truncated bucket names like:
-      #   `sls-${SERVICE_NAME}-de-serverlessdeploymentbuck-47ati3in2360`
+      #   `sls-SERVICE-de-serverlessdeploymentbuck-47ati3in2360`
       #   and possibly even more truncated, so we take a conservative approach.
       # - No region or account id allowed. https://iam.cloudonaut.io/reference/s3.html
       "arn:${local.partition}:s3:::${local.sls_service_name}-*-serverless*-*",
     ]
+  }
+
+  # Lambda: Create, update, delete the serverless Lambda.
+  statement {
+    actions = [
+      "lambda:CreateFunction",
+      "lambda:GetEventSourceMapping",
+      "lambda:ListEventSourceMappings",
+      "lambda:ListFunctions",
+    ]
+
+    # Necessary wildcards
+    # https://iam.cloudonaut.io/reference/lambda
+    resources = ["*"]
+  }
+
+  statement {
+    actions = ["lambda:DeleteFunction"]
+
+    # `sls-SERVICE-STAGE-${Handler/Function Name}`
+    resources = ["arn:${local.partition}:lambda:${local.iam_region}:${local.account_id}:function:${local.sls_service_name}-${local.stage}-*"]
   }
 
   # TODO HERE
@@ -62,41 +83,8 @@ data "aws_iam_policy_document" "admin" {
 
 
 #         # CloudFormation: Create the lambda service (DONE)
-#         # S3: Upload the lambda service files.
-#         - Effect: Allow
-#           Action:
-#           - s3:CreateBucket
-#           - s3:DeleteBucket
-#           Resource:
-#           # **NOTE**: If you have a long service name, you can end up with
-#           # bucket names like:
-#           # `sls-${SERVICE_NAME}-de-serverlessdeploymentbuck-47ati3in2360`
-#           # ... and I'm guessing possibly **even more truncated** for a longer
-#           # service name.
-#           # - No region or account id allowed
-#           - !Sub "arn:${AWS::Partition}:s3:::sls-${ServiceName}-*-serverlessdeployment*-*"
-
-
-#         # Lambda: Create, update, delete the service.
-#         - Effect: Allow
-#           Action:
-#           - lambda:CreateFunction
-#           - lambda:GetEventSourceMapping
-#           - lambda:ListEventSourceMappings
-#           - lambda:ListFunctions
-#           Resource:
-#           # Necessary wildcards
-#           # https://iam.cloudonaut.io/reference/lambda/CreateFunction.html
-#           # https://iam.cloudonaut.io/reference/lambda/GetEventSourceMapping.html
-#           # https://iam.cloudonaut.io/reference/lambda/ListEventSourceMappings.html
-#           # https://iam.cloudonaut.io/reference/lambda/ListFunctions.html
-#           - "*"
-#         - Effect: Allow
-#           Action:
-#           - lambda:DeleteFunction
-#           Resource:
-#           # `sls-${ServiceName}-${Stage}-${Handler/Function Name}`
-#           - !Sub "arn:${AWS::Partition}:lambda:${AwsRegion}:${AWS::AccountId}:function:sls-${ServiceName}-${Stage}-*"
+#         # S3: Upload the lambda service files. (DONE)
+#         # Lambda: Create, update, delete the service. (DONE)
 
 
 #         # IAM (allow creating and use of IAM roles)

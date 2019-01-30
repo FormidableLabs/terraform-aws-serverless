@@ -1,6 +1,6 @@
 # TODO: MOVE THIS TOO?
 # provider "aws" {
-#   region  = "${var.region}"
+#   region  = "${local.region}"
 #   version = "~> 1.19"
 # }
 # TODO: Move all of this to integrating app and document?

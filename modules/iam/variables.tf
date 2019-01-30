@@ -1,9 +1,19 @@
 # TODO: Move these variables up to root?
 
 # AWS
+variable "partition" {
+  description = "The AWS partition to limit to. Defaults to: current inferred partition. Could be wildcarded."
+  default     = ""
+}
+
+variable "account_id" {
+  description = "The AWS account ID to limit to. Defaults to: current inferred account id. Could be wildcarded."
+  default     = ""
+}
+
 variable "region" {
-  description = "The deploy target region in AWS"
-  default     = "us-east-1"
+  description = "The deploy target region in AWS. Defaults to: current inferred region"
+  default     = ""
 }
 
 variable "iam_region" {
@@ -35,7 +45,17 @@ variable "sls_service_name" {
   default     = ""
 }
 
+data "aws_partition" "current" {}
+data "aws_caller_identity" "current" {}
+data "aws_region" "current" {}
+
 locals {
-  tf_service_name  = "${var.tf_service_name != "" ? var.tf_service_name : "tf-${var.service_name}"}"
-  sls_service_name = "${var.sls_service_name != "" ? var.sls_service_name : "sls-${var.service_name}"}"
+  partition    = "${var.partition != "" ? var.partition : data.aws_partition.current.partition}"
+  account_id    = "${var.account_id != "" ? var.account_id : data.aws_caller_identity.current.account_id}"
+  region    = "${var.region != "" ? var.region : data.aws_region.current.name}"
+  iam_region = "${var.iam_region}"
+  stage = "${var.stage}"
+  service_name = "${var.service_name}"
+  tf_service_name   = "${var.tf_service_name != "" ? var.tf_service_name : "tf-${var.service_name}"}"
+  sls_service_name  = "${var.sls_service_name != "" ? var.sls_service_name : "sls-${var.service_name}"}"
 }

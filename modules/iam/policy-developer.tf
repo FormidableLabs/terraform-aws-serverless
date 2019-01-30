@@ -53,6 +53,21 @@ data "aws_iam_policy_document" "developer" {
       "${local.sls_deploy_bucket_arn}",
     ]
   }
+
+  # IAM (`sls deploy`)
+  statement {
+    actions = [
+      "iam:PassRole", # Assign to Lambdas
+      "iam:GetRole",
+    ]
+
+    resources = [
+      # Allow both the built-in serverless + our custom enhanced Lambda
+      # execution roles.
+      # TODO: LAMBDA EXECUTION ROLE POINTER
+      "${local.sls_lambda_role_arn}",
+    ]
+  }
 }
 
 # IamPolicyDeveloper:

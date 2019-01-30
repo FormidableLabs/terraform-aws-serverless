@@ -70,4 +70,12 @@ locals {
   #   and possibly even more truncated, so we take a conservative approach.
   # - No region or account id allowed. https://iam.cloudonaut.io/reference/s3.html
   sls_deploy_bucket_arn = "arn:${local.partition}:s3:::${local.sls_service_name}-*-serverless*-*"
+
+  # The stock serverless Lambda execution role.
+  #
+  # Note that we use `iam_region` to potentially wildcard the IAM permission
+  # in the actual name of the role.
+  #
+  # No region allowed in ARN. See https://iam.cloudonaut.io/reference/iam.html
+  sls_lambda_role_arn = "arn:${local.partition}:iam::${local.account_id}:role/${local.sls_service_name}-${local.stage}-${local.iam_region}-lambdaRole"
 }

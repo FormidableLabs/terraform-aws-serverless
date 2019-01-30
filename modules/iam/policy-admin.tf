@@ -90,22 +90,16 @@ data "aws_iam_policy_document" "admin" {
       "iam:CreateRole",
       "iam:DeleteRole",
       "iam:DetachRolePolicy",
-      "iam:PassRole",
       "iam:PutRolePolicy",
       "iam:AttachRolePolicy",
       "iam:DeleteRolePolicy",
     ]
 
-    # TODO: LAMBDA EXECUTION ROLE POINTER
-
     resources = [
-      # The stock serverless Lambda execution role.
-      #
-      # Note that we use `iam_region` to potentially wildcard the IAM permission
-      # in the actual name of the role.
-      #
-      # No region allowed in ARN. See https://iam.cloudonaut.io/reference/iam.html
-      "arn:${local.partition}:iam::${local.account_id}:role/${local.sls_service_name}-${local.stage}-${local.iam_region}-lambdaRole",
+      # Allow both the built-in serverless + our custom enhanced Lambda
+      # execution roles.
+      # TODO: LAMBDA EXECUTION ROLE POINTER
+      "${local.sls_lambda_role_arn}",
     ]
   }
 

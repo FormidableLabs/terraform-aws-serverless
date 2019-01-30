@@ -66,17 +66,27 @@ locals {
   )}"
 }
 
-# Capture repeated/complicated AWS resources to a single location.
+# Capture repeated/complicated AWS IAM resources to a single location.
 locals {
   # Serverless CloudFormation stack ARN.
   sls_cloudformation_arn = "arn:${local.partition}:cloudformation:${local.iam_region}:${local.account_id}:stack/${local.sls_service_name}-${local.stage}/*"
 
-  # Capture the serverless target deployment bucket ARN.
+  # Serverless target deployment bucket ARN.
   # - A long service name can endup with truncated bucket names like:
   #   `sls-SERVICE-de-serverlessdeploymentbuck-47ati3in2360`
   #   and possibly even more truncated, so we take a conservative approach.
   # - No region or account id allowed. https://iam.cloudonaut.io/reference/s3.html
   sls_deploy_bucket_arn = "arn:${local.partition}:s3:::${local.sls_service_name}-*-serverless*-*"
+
+  # All AWS log streams. This is pretty broad, but`sls deploy` (create stack).
+  # needs this, doing a request to: `arn:aws:logs:REGION:ACCOUNT:log-group::log-stream:`
+  aws_all_log_streams = "arn:${local.partition}:logs:${local.iam_region}:${local.account_id}:log-group::log-stream:"
+
+  # Serverless created log stream.
+  sls_log_stream = "arn:${local.partition}:logs:${local.iam_region}:${local.account_id}:log-group:aws/lambda/${local.sls_service_name}-${local.stage}-*:log-stream:"
+
+  # Serverless lambda function ARN.
+  sls_lambda_arn = "arn:${local.partition}:lambda:${local.iam_region}:${local.account_id}:function:${local.sls_service_name}-${local.stage}-*"
 
   # The stock serverless Lambda execution role.
   #

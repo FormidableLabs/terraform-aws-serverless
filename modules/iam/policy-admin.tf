@@ -74,9 +74,8 @@ data "aws_iam_policy_document" "admin" {
       "lambda:DeleteFunction",
     ]
 
-    # `sls-SERVICE-STAGE-${Handler/Function Name}`
     resources = [
-      "arn:${local.partition}:lambda:${local.iam_region}:${local.account_id}:function:${local.sls_service_name}-${local.stage}-*",
+      "${local.sls_lambda_arn}",
     ]
   }
 
@@ -106,18 +105,14 @@ data "aws_iam_policy_document" "admin" {
   # Logs (`sls logs`)
   statement {
     actions = [
-      "logs:DescribeLogStreams",
+      "logs:DescribeLogStreams", # TODO: CAN THIS GO BELOW ALONG WITH SPECIFIC ARN? OR THE OTHER ONE?
       "logs:DescribeLogGroups",
     ]
 
     # https://iam.cloudonaut.io/reference/logs.html
     resources = [
-      # sls deploy (create stack) needs this, doing a request to:
-      # `arn:aws:logs:REGION:ACCOUNT:log-group::log-stream:`
-      "arn:${local.partition}:logs:${local.iam_region}:${local.account_id}:log-group::log-stream:",
-
-      # Console log drill-down needs this permission.
-      "arn:${local.partition}:logs:${local.iam_region}:${local.account_id}:log-group:aws/lambda/${local.sls_service_name}-${local.stage}-*:log-stream:",
+      "${local.aws_all_log_streams}", # TODO: CAN WE GET RID OF THIS?
+      "${local.sls_log_stream}",
     ]
   }
 

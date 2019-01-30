@@ -3,7 +3,7 @@
 ###############################################################################
 
 data "aws_iam_policy_document" "admin" {
-  # CloudFormation: Create the lambda service
+  # CloudFormation: Allow serverless to create the service CloudFormation stack.
   statement {
     actions = [
       "cloudformation:ListStacks",
@@ -29,6 +29,23 @@ data "aws_iam_policy_document" "admin" {
 
     resources = [
       "arn:${local.partition}:cloudformation:${local.iam_region}:${local.account_id}:stack/${local.sls_service_name}-${local.stage}/*",
+    ]
+  }
+
+  # S3: Allow serverless to upload the packaged service for deployment.
+  statement {
+    actions = [
+      "s3:CreateBucket",
+      "s3:DeleteBucket",
+    ]
+
+    resources = [
+      # **Notes**:
+      # - A long service name can endup with truncated bucket names like:
+      #   `sls-${SERVICE_NAME}-de-serverlessdeploymentbuck-47ati3in2360`
+      #   and possibly even more truncated, so we take a conservative approach.
+      # - No region or account id allowed. https://iam.cloudonaut.io/reference/s3.html
+      "arn:${local.partition}:s3:::${local.sls_service_name}-*-serverless*-*",
     ]
   }
 

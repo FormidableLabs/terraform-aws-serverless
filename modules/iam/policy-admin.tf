@@ -1,6 +1,15 @@
 ###############################################################################
 # Policy: Admin
+# -------------
+# An admin has all the privileges of a developer and can additionally:
+# - Create/Delete the serverless application/stack
+# - View metrics from `sls metrics`
 ###############################################################################
+resource "aws_iam_policy" "admin" {
+  name   = "${local.tf_service_name}-${local.stage}-admin"
+  path   = "/"
+  policy = "${data.aws_iam_policy_document.admin.json}"
+}
 
 data "aws_iam_policy_document" "admin" {
   # CloudFormation: Allow serverless to create the service CloudFormation stack.

@@ -45,3 +45,16 @@ resource "aws_iam_group_policy_attachment" "developer_developer" {
   group      = "${aws_iam_group.developer.name}"
   policy_arn = "${aws_iam_policy.developer.arn}"
 }
+
+# Optional lambda role
+resource "aws_iam_role" "lambda_execution" {
+  name               = "${local.tf_lambda_role_name}"
+  path               = "/"
+  assume_role_policy = "${data.aws_iam_policy_document.lambda_assume_role_policy.json}"
+  tags               = "${local.tags}"
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_execution" {
+  role       = "${aws_iam_role.lambda_execution.name}"
+  policy_arn = "${aws_iam_policy.lambda_execution.arn}"
+}

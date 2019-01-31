@@ -113,4 +113,7 @@ locals {
   # - No account. TODO_CHECK
   # eg arn:aws:apigateway:us-east-1::/restapis/ibln8d639e/deployments
   sls_apigw_arn = "arn:aws:apigateway:${local.iam_region}:*:/restapis*"
+
+  # Our custom, optional lambda role name.
+  tf_lambda_role_name = "${local.tf_service_name}-${local.stage}-${local.region}-lambdaRole"
 }

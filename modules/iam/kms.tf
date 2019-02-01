@@ -28,4 +28,16 @@
 #           - kms:CancelKeyDeletion
 #           Resource:
 #           - !GetAtt KmsKey.Arn
+#         # TODO(IamPolicyLambdaExecution): KMS: Read keys
+#         - Effect: Allow
+#           Action:
+#           - kms:Decrypt
+#           Resource:
+#           - !GetAtt KmsKey.Arn
+#         # SecretsManager: Read secrets
+#         - Effect: Allow
+#           Action:
+#           - secretsmanager:GetSecretValue
+#           Resource:
+#           - !Sub "arn:aws:secretsmanager:${AwsRegion}:${AWS::AccountId}:secret:${ServiceName}/${Stage}/*"
 

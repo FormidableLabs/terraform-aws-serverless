@@ -13,4 +13,14 @@
 #           # https://docs.aws.amazon.com/IAM/latest/UserGuide/list_awsxray.html
 #           # https://docs.aws.amazon.com/xray/latest/devguide/xray-permissions.html#xray-permissions-managedpolicies
 #           - "*"
+#         # TODO(IamPolicyLambdaExecution): Xray: upload traces
+#         - Effect: Allow
+#           Action:
+#           - xray:PutTraceSegments
+#           - xray:PutTelemetryRecords
+#           Resource:
+#           # Must be wildcard.
+#           # https://docs.aws.amazon.com/IAM/latest/UserGuide/list_awsxray.html
+#           # https://docs.aws.amazon.com/xray/latest/devguide/xray-permissions.html#xray-permissions-managedpolicies
+#           - "*"
 

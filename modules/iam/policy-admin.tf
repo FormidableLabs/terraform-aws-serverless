@@ -105,13 +105,13 @@ data "aws_iam_policy_document" "admin" {
   # Logs (`sls deploy`, `sls logs`)
   statement {
     actions = [
-      "logs:DescribeLogStreams", # TODO: CAN THIS GO BELOW ALONG WITH SPECIFIC ARN? OR THE OTHER ONE?
+      "logs:DescribeLogStreams",
       "logs:DescribeLogGroups",
     ]
 
     # https://iam.cloudonaut.io/reference/logs.html
     resources = [
-      "${local.aws_all_log_streams_arn}", # TODO: CAN WE GET RID OF THIS?
+      "${local.aws_all_log_streams_arn}",
       "${local.sls_log_stream_arn}",
     ]
   }
@@ -125,6 +125,7 @@ data "aws_iam_policy_document" "admin" {
     ]
 
     resources = [
+      "${local.aws_all_log_streams_arn}",
       "${local.sls_log_stream_arn}",
     ]
   }

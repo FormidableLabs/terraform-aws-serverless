@@ -22,7 +22,7 @@ resource "aws_iam_group_policy_attachment" "admin_admin" {
 }
 
 resource "aws_iam_group_policy_attachment" "admin_developer" {
-  group      = "${aws_iam_group.developer.name}"
+  group      = "${aws_iam_group.admin.name}"
   policy_arn = "${aws_iam_policy.developer.arn}"
 }
 

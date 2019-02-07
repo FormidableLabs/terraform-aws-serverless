@@ -96,7 +96,7 @@ locals {
   # Note that we use `iam_region` to potentially wildcard the IAM permission
   # in the actual name of the role.
   #
-  # No region allowed in ARN. See https://iam.cloudonaut.io/reference/iam.html
+  # - No region allowed in ARN. See https://iam.cloudonaut.io/reference/iam.html
   sls_lambda_role_arn = "arn:${local.partition}:iam::${local.account_id}:role/${local.sls_service_name}-${local.stage}-${local.iam_region}-lambdaRole"
 
   # The serverless created APIGW.
@@ -112,10 +112,8 @@ locals {
   # - https://iam.cloudonaut.io/reference/apigateway.html
   # - https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-control-access-using-iam-policies-to-invoke-api.html
   #
-  # - No partition. TODO_CHECK (has to be AWS?)
-  # - No account. TODO_CHECK
   # eg arn:aws:apigateway:us-east-1::/restapis/ibln8d639e/deployments
-  sls_apigw_arn = "arn:aws:apigateway:${local.iam_region}:*:/restapis*"
+  sls_apigw_arn = "arn:${local.partition}:apigateway:${local.iam_region}:${local.account_id}:/restapis*"
 
   # Our custom, optional lambda role name.
   tf_lambda_role_name = "${local.tf_service_name}-${local.stage}-${local.region}-lambdaRole"

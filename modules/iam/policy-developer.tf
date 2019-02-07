@@ -125,16 +125,4 @@ data "aws_iam_policy_document" "developer" {
       "${local.sls_log_stream_arn}*",
     ]
   }
-
-  # TODO: Try to get cloudwatch viewing enabled...
-  # statement {
-  #   actions = [
-  #     "logs:DescribeLogStreams",
-  #     "logs:DescribeLogGroups",
-  #   ]
-
-  #   resources = [
-  #     "${aws_all_log_streams_arn}",
-  #   ]
-  # }
 }

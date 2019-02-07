@@ -78,8 +78,7 @@ locals {
   # - No region or account id allowed. https://iam.cloudonaut.io/reference/s3.html
   sls_deploy_bucket_arn = "arn:${local.partition}:s3:::${local.sls_service_name}-*-serverless*-*"
 
-  # All AWS log streams. This is pretty broad, but`sls deploy` (create stack).
-  # needs this, doing a request to: `arn:aws:logs:REGION:ACCOUNT:log-group::log-stream:`
+  # All AWS log streams. Only use for `log:Describe*` functionality.
   aws_all_log_streams_arn = "arn:${local.partition}:logs:${local.iam_region}:${local.account_id}:log-group::log-stream:"
 
   # Serverless created log stream.

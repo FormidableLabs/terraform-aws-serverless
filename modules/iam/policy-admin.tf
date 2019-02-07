@@ -104,19 +104,6 @@ data "aws_iam_policy_document" "admin" {
   # Logs (`sls deploy`, `sls logs`)
   statement {
     actions = [
-      "logs:DescribeLogStreams",
-      "logs:DescribeLogGroups",
-    ]
-
-    # https://iam.cloudonaut.io/reference/logs.html
-    resources = [
-      "${local.aws_all_log_streams_arn}",
-      "${local.sls_log_stream_arn}",
-    ]
-  }
-
-  statement {
-    actions = [
       "logs:CreateLogGroup",
       "logs:CreateLogStream",
       "logs:DeleteLogGroup",
@@ -124,7 +111,6 @@ data "aws_iam_policy_document" "admin" {
     ]
 
     resources = [
-      "${local.aws_all_log_streams_arn}",
       "${local.sls_log_stream_arn}",
     ]
   }

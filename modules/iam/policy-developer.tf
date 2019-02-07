@@ -121,7 +121,20 @@ data "aws_iam_policy_document" "developer" {
     # Note: Need trailing `*` in `log-stream:*` to allow viewing specific logs in AWS console.
     # https://iam.cloudonaut.io/reference/logs.html
     resources = [
+      "${local.sls_log_stream_arn}",
       "${local.sls_log_stream_arn}*",
     ]
   }
+
+  # TODO: Try to get cloudwatch viewing enabled...
+  # statement {
+  #   actions = [
+  #     "logs:DescribeLogStreams",
+  #     "logs:DescribeLogGroups",
+  #   ]
+
+  #   resources = [
+  #     "${aws_all_log_streams_arn}",
+  #   ]
+  # }
 }

@@ -62,10 +62,10 @@ data "aws_iam_policy_document" "developer" {
     ]
 
     resources = [
-      # Allow both the built-in serverless + our custom enhanced Lambda
-      # execution roles.
-      # TODO: LAMBDA EXECUTION ROLE POINTER
+      # Support both serverless + our custom enhanced Lambda execution roles.
       "${local.sls_lambda_role_arn}",
+
+      "${aws_iam_role.lambda_execution.arn}",
     ]
   }
 

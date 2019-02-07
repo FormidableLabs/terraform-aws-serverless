@@ -11,8 +11,6 @@
 # - `xray`
 # - `kms`
 # - `secretsmanager`
-#
-# TODO: More documentation here or in README about dependencies/integration.
 ###############################################################################
 resource "aws_iam_policy" "lambda_execution" {
   name   = "${local.tf_service_name}-${local.stage}-lambda"

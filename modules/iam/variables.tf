@@ -105,6 +105,9 @@ locals {
   # `$api-id` for a `!Ref` which we don't know ahead of time. It's
   # created dynamically as a part of `sls` provisioning.
   #
+  # TODO(8): Research locking down more.
+  # https://github.com/FormidableLabs/serverless-iam-terraform/issues/8
+  #
   # See:
   # - https://iam.cloudonaut.io/reference/apigateway.html
   # - https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-control-access-using-iam-policies-to-invoke-api.html

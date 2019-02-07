@@ -15,7 +15,7 @@
 # TODO: More documentation here or in README about dependencies/integration.
 ###############################################################################
 resource "aws_iam_policy" "lambda_execution" {
-  name   = "${var.stage}-sls-${var.service_name}-lambda"
+  name   = "${local.tf_service_name}-${local.stage}-lambda"
   path   = "/"
   policy = "${data.aws_iam_policy_document.lambda_execution.json}"
 }

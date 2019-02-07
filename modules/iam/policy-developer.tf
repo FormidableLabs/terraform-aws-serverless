@@ -104,16 +104,6 @@ data "aws_iam_policy_document" "developer" {
       "apigateway:DELETE",
     ]
 
-    # **NOTE**: This is difficult to lock down because we need the actual
-    # `$api-id` for a `!Ref` which we don't know ahead of time. It's
-    # created dynamically as a part of `sls` provisioning.
-    #
-    # See:
-    # - https://iam.cloudonaut.io/reference/apigateway.html
-    # - https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-control-access-using-iam-policies-to-invoke-api.html
-    #
-    # No partition
-    # eg arn:aws:apigateway:us-east-1::/restapis/ibln8d639e/deployments
     resources = [
       "${local.sls_apigw_arn}",
     ]

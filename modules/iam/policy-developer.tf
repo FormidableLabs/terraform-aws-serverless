@@ -112,7 +112,7 @@ data "aws_iam_policy_document" "developer" {
   # Logs (`sls logs`)
   statement {
     actions = [
-      "logs:DescribeLogStreams", # TODO: This is _also_ in admin with slightly diff ARN. Reconcile.
+      "logs:DescribeLogStreams",
       "logs:DescribeLogGroups",
       "logs:FilterLogEvents",
       "logs:GetLogEvents",
@@ -121,7 +121,6 @@ data "aws_iam_policy_document" "developer" {
     # Note: Need trailing `*` in `log-stream:*` to allow viewing specific logs in AWS console.
     # https://iam.cloudonaut.io/reference/logs.html
     resources = [
-      "${local.aws_all_log_streams_arn}", # TODO: CAN WE GET RID OF THIS?
       "${local.sls_log_stream_arn}*",
     ]
   }

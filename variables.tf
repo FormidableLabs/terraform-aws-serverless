@@ -108,8 +108,10 @@ locals {
   # - https://iam.cloudonaut.io/reference/apigateway.html
   # - https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-control-access-using-iam-policies-to-invoke-api.html
   #
-  # eg arn:aws:apigateway:us-east-1::/restapis/ibln8d639e/deployments
-  sls_apigw_arn = "arn:${local.partition}:apigateway:${local.iam_region}:${local.account_id}:/restapis*"
+  # E.g. arn:aws:apigateway:us-east-1::/restapis/ibln8d639e/deployments
+  # - **Note**: Adding `${local.account_id}` will cause at least `-developer`
+  #   to fail for permissions.
+  sls_apigw_arn = "arn:${local.partition}:apigateway:${local.iam_region}::/restapis*"
 
   # Our custom, optional lambda role name.
   tf_lambda_role_name = "${local.tf_service_name}-${local.stage}-${local.region}-lambdaRole"

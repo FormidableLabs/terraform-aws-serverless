@@ -1,6 +1,6 @@
 AWS Serverless Infrastructure
 =============================
-[![Terraform](https://img.shields.io/badge/terraform-published-blue.svg)](https://registry.terraform.io/modules/FormidableLabs/serverless/aws)
+[![Terraform](https://img.shields.io/badge/terraform-published-blue.svg)](https://registry.terraform.io/modules/FormidableLabs/TODO_PROJECT_NAME/aws)
 
 Get your [serverless][] framework application to AWS, the **right way**.
 
@@ -26,6 +26,8 @@ This module allows practical isolation / compartmentalization of privileges with
 * **IAM Groups**: This module creates/enforces a scheme wherein:
     * **Admin**: AWS users assigned to the `admin` group can create/update/delete a `serverless` application and do pretty much anything that the `serverless` framework permits out of the box.
     * **Developer, CI**: AWS users assigned to the `developer|ci` groups can update a `serverless` application and do non-mutating things like view logs, perform rollbacks, etc.
+
+In this manner, once an AWS superuser deploys a Terraform stack with this module and assigns IAM groups, the rest of the development / devops teams and CI can build and deploy Serverless applications to appropriate cloud targets with the minimum necessary privileges and isolation across services + environments + IAM roles.
 
 ## TODO_REST_OF_DOCS
 

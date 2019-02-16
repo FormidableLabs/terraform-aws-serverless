@@ -79,8 +79,8 @@ data "aws_iam_policy_document" "admin" {
     ]
   }
 
-  # IAM: Allow the built-in serverless framework and our custom Lambda Roles
-  # to hook up to the Lambda.
+  # IAM: Allow the built-in serverless framework Lambda Roles to hook up to the
+  # Lambda.
   # - https://github.com/serverless/serverless/issues/1439#issuecomment-363383862
   # - https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html
   statement {
@@ -94,10 +94,7 @@ data "aws_iam_policy_document" "admin" {
     ]
 
     resources = [
-      # Support both serverless + our custom enhanced Lambda execution roles.
       "${local.sls_lambda_role_arn}",
-
-      "${aws_iam_role.lambda_execution.arn}",
     ]
   }
 

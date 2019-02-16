@@ -119,7 +119,4 @@ locals {
   # - **Note**: Adding `${local.account_id}` will cause at least `-developer`
   #   to fail for permissions.
   sls_apigw_arn = "arn:${local.partition}:apigateway:${local.iam_region}::/restapis*"
-
-  # Our custom, optional lambda role name.
-  tf_lambda_role_name = "${local.tf_service_name}-${local.stage}-${local.region}-lambdaRole"
 }

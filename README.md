@@ -16,7 +16,6 @@ Getting a [serverless][] application all the way to production in AWS **correctl
 This [Terraform][] module provides a production-ready base of AWS permissions / resources to support a `serverless` framework application and help manage development / deployment workflows and maintenance. Specifically, it provides:
 
 - **IAM Groups**: Role-specific groups to attach to AWS users to give humans and CI the minimum level of permissions locked to both a specific `serverless` service and stage/environment.
-- **Custom Lambda Execution Role**: You will often need to extend the serverless-provided Lambda execution role. This module provides an analagous one that you can customize even further, completely in Terraform.
 
 ## Concepts
 

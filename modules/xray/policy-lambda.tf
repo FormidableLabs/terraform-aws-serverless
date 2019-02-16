@@ -1,8 +1,7 @@
 ###############################################################################
 # Policy: Lambda Execution
 # ------------------------
-# Enhanced support for Xray for SLS-built-in or our custom Lambda execution
-# roles.
+# Enhanced support for Xray for SLS-built-in Lambda execution role.
 ###############################################################################
 resource "aws_iam_policy" "lambda_execution" {
   name   = "${local.tf_service_name}-${local.stage}-lambda-xray"
@@ -11,7 +10,6 @@ resource "aws_iam_policy" "lambda_execution" {
 }
 
 data "aws_iam_policy_document" "lambda_execution" {
-  # Everything below is equivalent to the SLS-generated lambda execution role.
   statement {
     actions = [
       "xray:PutTraceSegments",

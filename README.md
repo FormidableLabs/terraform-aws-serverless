@@ -1,6 +1,6 @@
 AWS Serverless Infrastructure
 =============================
-[![Terraform](https://img.shields.io/badge/terraform-published-blue.svg)](https://registry.terraform.io/modules/FormidableLabs/TODO_PROJECT_NAME/aws)
+[![Terraform](https://img.shields.io/badge/terraform-published-blue.svg)](https://registry.terraform.io/modules/FormidableLabs/serverless/aws)
 
 Get your [serverless][] framework application to AWS, the **right way**.
 

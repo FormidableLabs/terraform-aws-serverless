@@ -1,0 +1,15 @@
+{
+  "name": "terraform-aws-serverless",
+  "version": "0.0.1",
+  "description": "Infrastructure support for Serverless framework apps, done the right way",
+  "main": "index.js",
+  "repository": "git@github.com:FormidableLabs/terraform-aws-serverless.git",
+  "author": "Ryan Roemer <ryan.roemer@formidable.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "format": "terraform fmt",
+    "build:copy": "echo modules/* | xargs -n 1 cp variables.tf",
+    "build": "terraform fmt && yarn build:copy"
+  }
+}

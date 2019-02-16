@@ -1,5 +1,10 @@
-# TODO: Move these variables up to root?
-# TODO: Copy and paste as a build step?
+###############################################################################
+# Module Variables
+#
+# _Note_: These variables are defined in the root module `variables.tf` and
+# copied to all other submodules in a build step. The root module contains the
+# real source of truth.
+###############################################################################
 
 # AWS
 variable "partition" {

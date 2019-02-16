@@ -88,7 +88,13 @@ locals {
   # Serverless lambda function ARN.
   sls_lambda_arn = "arn:${local.partition}:lambda:${local.iam_region}:${local.account_id}:function:${local.sls_service_name}-${local.stage}-*"
 
-  # The stock serverless Lambda execution role.
+  # The built-in serverless Lambda execution role.
+  #
+  # _Note_: We need **actual name** to match real role, which means
+  # `local.region` and not `local.iam_region`.
+  sls_lambda_role_name = "${local.sls_service_name}-${local.stage}-${local.region}-lambdaRole"
+
+  # The built-in serverless Lambda execution role ARN.
   #
   # Note that we use `iam_region` to potentially wildcard the IAM permission
   # in the actual name of the role.

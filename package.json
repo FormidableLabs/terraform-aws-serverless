@@ -11,7 +11,7 @@
     "format": "terraform fmt",
     "build:copy": "echo modules/* | xargs -n 1 cp variables.tf",
     "build": "terraform fmt && yarn build:copy",
-    "check:git-dirty": "test -z \"$(git status --porcelain)\" || echo \"ERROR: Found git dirty files:\n$(git status --porcelain)\" && exit 1",
+    "check:git-dirty": "test -z \"$(git status --porcelain)\" || (echo \"ERROR: Found git dirty files:\n$(git status --porcelain)\" && exit 1)",
     "check:ci": "yarn build && yarn check:git-dirty"
   }
 }

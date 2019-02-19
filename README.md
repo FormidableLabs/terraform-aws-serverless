@@ -1,6 +1,7 @@
 AWS Serverless Infrastructure
 =============================
-[![Terraform](https://img.shields.io/badge/terraform-published-blue.svg)](https://registry.terraform.io/modules/FormidableLabs/serverless/aws)
+[![Terraform][tf_img]][tf_site]
+[![Travis Status][trav_img]][trav_site]
 
 Get your [serverless][] framework application to AWS, the **right way**.
 
@@ -32,3 +33,8 @@ In this manner, once an AWS superuser deploys a Terraform stack with this module
 
 [serverless]: https://serverless.com/
 [Terraform]: https://www.terraform.io
+
+[tf_img]: https://img.shields.io/badge/terraform-published-blue.svg
+[tf_site]: https://registry.terraform.io/modules/FormidableLabs/serverless/aws
+[trav_img]: https://api.travis-ci.org/FormidableLabs/inspectpack.svg
+[trav_site]: https://travis-ci.org/FormidableLabs/inspectpack

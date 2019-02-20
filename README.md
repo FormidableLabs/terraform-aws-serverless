@@ -43,7 +43,7 @@ Here's a basic integration of the core `serverless` module:
 ```hcl
 # Core `serverless` IAM support.
 module "serverless" {
-  source = "formidable/serverless/aws"
+  source = "FormidableLabs/serverless/aws"
 
   region       = "INSERT"
   service_name = "INSERT"
@@ -58,11 +58,11 @@ module "serverless" {
 }
 ```
 
-Let's unpack these inputs a bit more:
+Let's unpack the parameters a bit more (located in [variables.tf](variables.tf)):
 
-- `service_name`: TODO
-- `stage`: TODO
-- `partition`: TODO
+- `service_name`: A service name is something that defines the unique application that will match up with the serverless application. E.g., something boring like `simple-reference` or `graphql-server` or exciting like `unicorn` or `sparklepants`.
+- `stage`: The current stage that will match up with the `serverless` framework deployment. These are arbitrary, but can be something like `development`/`staging`/`production`.
+- `partition`: The AWS partition to limit IAM privileges to. TODO_MORE_HERE
 - `account_id`: TODO
 - `region`: TODO
 - `iam_region`: TODO

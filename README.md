@@ -50,9 +50,9 @@ module "serverless" {
   stage        = "INSERT"
 
   # (Default values)
-  # partition         = `AWS_CALLER`s partition
-  # account_id        = `AWS_CALLER`s account ID
   # iam_region        = `*`
+  # iam_partition     = `*`
+  # iam_account_id    = `AWS_CALLER account`
   # tf_service_name   = `tf-SERVICE_NAME`
   # sls_service_name  = `sls-SERVICE_NAME`
 }
@@ -62,10 +62,10 @@ Let's unpack the parameters a bit more (located in [variables.tf](variables.tf))
 
 - `service_name`: A service name is something that defines the unique application that will match up with the serverless application. E.g., something boring like `simple-reference` or `graphql-server` or exciting like `unicorn` or `sparklepants`.
 - `stage`: The current stage that will match up with the `serverless` framework deployment. These are arbitrary, but can be something like `development`/`staging`/`production`.
-- `partition`: The AWS partition to limit IAM privileges to. TODO_MORE_HERE
-- `account_id`: TODO
-- `region`: TODO
-- `iam_region`: TODO
+- `region`: The deployed region of the service. Defaults to the current caller's AWS region.
+- `iam_region`: The [AWS partition][] to limit IAM privileges to. Defaults to `*`. The difference with `region` is that `region` has to be one specific region like `us-east-1` to match up with Serverless framework resources, whereas `iam_region` can be a single region or `*` wildcard as it's just an IAM restriction.
+- `iam_partition`: The AWS partition to limit IAM privileges to. Defaults to `*`.
+- `iam_account_id`: The AWS account ID to limit IAM privileges to. Defaults to the current caller's account ID.
 - `tf_service_name`: TODO
 - `sls_service_name`: TODO
 
@@ -80,7 +80,8 @@ Let's unpack the parameters a bit more (located in [variables.tf](variables.tf))
 
 [serverless]: https://serverless.com/
 [Terraform]: https://www.terraform.io
-[aws_xray]: https://aws.amazon.com/xray/
+[AWS partition]: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html#cfn-pseudo-param-partition
+[AWS X-Ray]: https://aws.amazon.com/xray/
 
 [tf_img]: https://img.shields.io/badge/terraform-published-blue.svg
 [tf_site]: https://registry.terraform.io/modules/FormidableLabs/serverless/aws

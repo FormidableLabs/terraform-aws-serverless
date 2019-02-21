@@ -38,20 +38,32 @@ This project provides a core base module that is the minimum that must be used. 
 
 ## Integration
 
+### Reference Project
+
+Perhaps the easiest place to start is our [sample reference project][ref_project] that creates a Serverless framework service named `simple-reference` that integrates the core module and submodules of this project. The relevant files to review include:
+
+- Terraform infrastructure
+    - [aws/bootstrap.yml](https://github.com/FormidableLabs/aws-lambda-serverless-reference/blob/master/aws/bootstrap.yml): Terraform remote state storage / bootstrap.
+    - [terraform/variables.tf](https://github.com/FormidableLabs/aws-lambda-serverless-reference/blob/master/terraform/variables.tf): Terraform variables.
+    - [terraform/main.tf](https://github.com/FormidableLabs/aws-lambda-serverless-reference/blob/master/terraform/main.tf): Terraform resources / integration.
+- Serverless framework
+    - [serverless.yml](https://github.com/FormidableLabs/aws-lambda-serverless-reference/blob/master/serverless.yml): Serverless framework configuration.
+- Example Node.js handlers/servers
+    - [src/server/base.js](https://github.com/FormidableLabs/aws-lambda-serverless-reference/blob/master/src/server/base.js): Example "hello world" server using only the core `serverless` module.
+    - [src/server/xray.js](https://github.com/FormidableLabs/aws-lambda-serverless-reference/blob/master/src/server/xray.js): Example server additionally enabling [AWS X-Ray][] performance tracing additionally using the `serverless_xray` submodule.
+
+### Core IAM module
+
 Here's a basic integration of the core `serverless` module:
 
 ```hcl
-################
-# variables.tf #
-################
+# variables.tf
 variable "stage" {
   description = "The stage/environment to deploy to. Suggest: `sandbox`, `development`, `staging`, `production`."
   default     = "development"
 }
 
-###########
-# main.tf #
-###########
+# main.tf
 provider "aws" {
   region  = "us-east-1"
   version = "~> 1.19"
@@ -88,7 +100,8 @@ provider:
   stage: ${opt:stage, "development"}
 
 functions:
-  # ...
+  server:
+    # ...
 ```
 
 Let's unpack the parameters a bit more (located in [variables.tf](variables.tf)):
@@ -102,12 +115,11 @@ Let's unpack the parameters a bit more (located in [variables.tf](variables.tf))
 - `tf_service_name`: The service name for Terraform-created resources. It is very useful to distinguish between those created by Terraform / this module and those created by the Serverless framework. By default, `tf-${service_name}` for "Terraform". E.g., `tf-simple-reference` or `tf-sparklepants`.
 - `sls_service_name`: The service name for Serverless as defined in `serverlss.yml` in the `service` field. Highly recommended to match our default of `sls-${service_name}` for "Serverless".
 
+### AWS X-ray submodule
+
+TODO_HERE
 
 
-
-
-
-- [ ] TODO: Mention `[ref_project]`
 
 ## TODO_REST_OF_DOCS
 

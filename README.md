@@ -1,5 +1,5 @@
-AWS Serverless Infrastructure
-=============================
+AWS Serverless Module
+=====================
 [![Terraform][tf_img]][tf_site]
 [![Travis Status][trav_img]][trav_site]
 
@@ -50,9 +50,8 @@ Perhaps the easiest place to start is our [sample reference project][ref_project
     - [serverless.yml](https://github.com/FormidableLabs/aws-lambda-serverless-reference/blob/master/serverless.yml): Serverless framework configuration.
 - Example Node.js handlers/servers
     - [src/server/base.js](https://github.com/FormidableLabs/aws-lambda-serverless-reference/blob/master/src/server/base.js): Example "hello world" server using only the core `serverless` module.
-    - [src/server/xray.js](https://github.com/FormidableLabs/aws-lambda-serverless-reference/blob/master/src/server/xray.js): Example server additionally enabling [AWS X-Ray][] performance tracing additionally using the `serverless_xray` submodule.
 
-### Core IAM Terraform module integration
+### Module integration
 
 Here's a basic integration of the core `serverless` module:
 
@@ -113,7 +112,7 @@ Let's unpack the parameters a bit more (located in [variables.tf](variables.tf))
 - `iam_partition`: The [AWS partition][] to limit IAM privileges to. Defaults to `*`.
 - `iam_account_id`: The [AWS account ID][] to limit IAM privileges to. Defaults to the current caller's account ID.
 - `tf_service_name`: The service name for Terraform-created resources. It is very useful to distinguish between those created by Terraform / this module and those created by the Serverless framework. By default, `tf-${service_name}` for "Terraform". E.g., `tf-simple-reference` or `tf-sparklepants`.
-- `sls_service_name`: The service name for Serverless as defined in `serverlss.yml` in the `service` field. Highly recommended to match our default of `sls-${service_name}` for "Serverless".
+- `sls_service_name`: The service name for Serverless as defined in `serverless.yml` in the `service` field. Highly recommended to match our default of `sls-${service_name}` for "Serverless".
 
 Most likely, an AWS superuser will be needed to run the Terraform application for these IAM / other resources.
 

@@ -108,10 +108,10 @@ Let's unpack the parameters a bit more (located in [variables.tf](variables.tf))
 
 - `service_name`: A service name is something that defines the unique application that will match up with the serverless application. E.g., something boring like `simple-reference` or `graphql-server` or exciting like `unicorn` or `sparklepants`.
 - `stage`: The current stage that will match up with the `serverless` framework deployment. These are arbitrary, but can be something like `development`/`staging`/`production`.
-- `region`: The deployed region of the service. Defaults to the current caller's AWS region.
-- `iam_region`: The [AWS partition][] to limit IAM privileges to. Defaults to `*`. The difference with `region` is that `region` has to be one specific region like `us-east-1` to match up with Serverless framework resources, whereas `iam_region` can be a single region or `*` wildcard as it's just an IAM restriction.
-- `iam_partition`: The AWS partition to limit IAM privileges to. Defaults to `*`.
-- `iam_account_id`: The AWS account ID to limit IAM privileges to. Defaults to the current caller's account ID.
+- `region`: The deployed region of the service. Defaults to the current caller's AWS region. E.g., `us-east-1`.
+- `iam_region`: The [AWS region][] to limit IAM privileges to. Defaults to `*`. The difference with `region` is that `region` has to be one specific region like `us-east-1` to match up with Serverless framework resources, whereas `iam_region` can be a single region or `*` wildcard as it's just an IAM restriction.
+- `iam_partition`: The [AWS partition][] to limit IAM privileges to. Defaults to `*`.
+- `iam_account_id`: The [AWS account ID][] to limit IAM privileges to. Defaults to the current caller's account ID.
 - `tf_service_name`: The service name for Terraform-created resources. It is very useful to distinguish between those created by Terraform / this module and those created by the Serverless framework. By default, `tf-${service_name}` for "Terraform". E.g., `tf-simple-reference` or `tf-sparklepants`.
 - `sls_service_name`: The service name for Serverless as defined in `serverlss.yml` in the `service` field. Highly recommended to match our default of `sls-${service_name}` for "Serverless".
 
@@ -125,7 +125,9 @@ TODO_HERE
 
 [serverless]: https://serverless.com/
 [Terraform]: https://www.terraform.io
+[AWS region]: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html#cfn-pseudo-param-region
 [AWS partition]: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html#cfn-pseudo-param-partition
+[AWS account ID]: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html#cfn-pseudo-param-accountid
 [AWS X-Ray]: https://aws.amazon.com/xray/
 
 [tf_img]: https://img.shields.io/badge/terraform-published-blue.svg

@@ -6,6 +6,19 @@ AWS Serverless - X-ray Module
 
 This module enables [AWS X-ray][] support for [serverless][] framework applications.
 
+## Contents
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Overview](#overview)
+- [Integration](#integration)
+  - [Reference project](#reference-project)
+  - [Module integration](#module-integration)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Overview
 
 This module adds [IAM permissions][xray_iam] to the Lambda execution role created by the Serverless framework as part of its CloudFormation stack so that the role may send trace data to AWS.

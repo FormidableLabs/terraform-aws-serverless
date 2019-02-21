@@ -5,6 +5,22 @@ AWS Serverless Module
 
 Get your [serverless][] framework application to AWS, the **right way**.
 
+## Contents
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Overview](#overview)
+- [Concepts](#concepts)
+- [Modules](#modules)
+- [Integration](#integration)
+  - [Reference project](#reference-project)
+  - [Module integration](#module-integration)
+  - [AWS IAM group integration](#aws-iam-group-integration)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 ## Overview
 
 Getting a [serverless][] application all the way to production in AWS **correctly** using **securely** can be quite challenging. In particular, things like:

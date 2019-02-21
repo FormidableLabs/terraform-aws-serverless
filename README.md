@@ -34,11 +34,11 @@ In this manner, once an AWS superuser deploys a Terraform stack with this module
 This project provides a core base module that is the minimum that must be used. Once the core is in place, then other optional submodules can be added.
 
 - **Core (`/*`)**: Provides supporting IAM policies, roles, and groups so that an engineering team / CI can effectively create and maintain `serverless` Framework applications locked down to specific applications + environments with the minimum permissions needed.
-- **X-Ray (`modules/xray`)**: TODO
+- **X-Ray (`modules/xray`)**: Optional submodule to add needed IAM support to enable AWS X-Ray performance tracing in a Serverless framework application. See the [submodule documentation](./modules/xray/README.md).
 
 ## Integration
 
-### Reference Project
+### Reference project
 
 Perhaps the easiest place to start is our [sample reference project][ref_project] that creates a Serverless framework service named `simple-reference` that integrates the core module and submodules of this project. The relevant files to review include:
 
@@ -52,7 +52,7 @@ Perhaps the easiest place to start is our [sample reference project][ref_project
     - [src/server/base.js](https://github.com/FormidableLabs/aws-lambda-serverless-reference/blob/master/src/server/base.js): Example "hello world" server using only the core `serverless` module.
     - [src/server/xray.js](https://github.com/FormidableLabs/aws-lambda-serverless-reference/blob/master/src/server/xray.js): Example server additionally enabling [AWS X-Ray][] performance tracing additionally using the `serverless_xray` submodule.
 
-### Core IAM module
+### Core IAM Terraform module integration
 
 Here's a basic integration of the core `serverless` module:
 
@@ -115,13 +115,19 @@ Let's unpack the parameters a bit more (located in [variables.tf](variables.tf))
 - `tf_service_name`: The service name for Terraform-created resources. It is very useful to distinguish between those created by Terraform / this module and those created by the Serverless framework. By default, `tf-${service_name}` for "Terraform". E.g., `tf-simple-reference` or `tf-sparklepants`.
 - `sls_service_name`: The service name for Serverless as defined in `serverlss.yml` in the `service` field. Highly recommended to match our default of `sls-${service_name}` for "Serverless".
 
-### AWS X-ray submodule
+Most likely, an AWS superuser will be needed to run the Terraform application for these IAM / other resources.
 
-TODO_HERE
+### AWS IAM group integration
 
+Once the core module is applied, three IAM groups will be created in the form of `${tf_service_name}-${stage}-(admin|developer|ci)`. This typically looks something like:
 
+- `tf-${service_name}-${stage}-admin`: Can create/delete/update the Severless app.
+- `tf-${service_name}-${stage}-developer`: Can deploy the Severless app.
+- `tf-${service_name}-${stage}-ci`: Can deploy the Severless app.
 
-## TODO_REST_OF_DOCS
+Once these groups exist, an AWS superuser can then attach these groups to AWS individual users as appropriate for the combination of service + stage + role (admin, developer, CI). Or, the IAM group attachments could be controlled via Terraform as well!
+
+The main upshot of this is after attachment, a given AWS user has the minimum necessary privileges for exactly the level of Serverless framework commands they need. Our sister Serverless application [reference project][ref_project] documentation has many examples of various `serverless` commands and which IAM group can properly run them.
 
 [serverless]: https://serverless.com/
 [Terraform]: https://www.terraform.io

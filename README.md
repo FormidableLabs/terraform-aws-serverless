@@ -23,7 +23,7 @@ Get your [serverless][] framework application to AWS, the **right way**.
 
 ## Overview
 
-Getting a [serverless][] application all the way to production in AWS **correctly** using **securely** can be quite challenging. In particular, things like:
+Getting a [serverless][] application all the way to production in AWS **correctly** and **securely** can be quite challenging. In particular, things like:
 
 - Locking down IAM permissions to the minimum needed for different conceptual "roles" (e.g., `admin`, `developer`, `ci`).
 - Providing a scheme for different environments/stages (e.g., `development`, `staging`, `production`).
@@ -41,7 +41,7 @@ This module allows practical isolation / compartmentalization of privileges with
 * **Stage/Environment**: An arbitrary environment to isolate -- this module doesn't restrict selection in any way other than there has to be at least one. In practice, a good set of choices may be something like `sandbox`, `development`, `staging`, `production`.
 * **IAM Groups**: This module creates/enforces a scheme wherein:
     * **Admin**: AWS users assigned to the `admin` group can create/update/delete a `serverless` application and do pretty much anything that the `serverless` framework permits out of the box.
-    * **Developer, CI**: AWS users assigned to the `developer|ci` groups can update a `serverless` application and do non-mutating things like view logs, perform rollbacks, etc.
+    * **Developer, CI**: AWS users assigned to the `developer|ci` groups can update a `serverless` application and do other things like view logs, perform rollbacks, etc.
 
 In this manner, once an AWS superuser deploys a Terraform stack with this module and assigns IAM groups, the rest of the development / devops teams and CI can build and deploy Serverless applications to appropriate cloud targets with the minimum necessary privileges and isolation across services + environments + IAM roles.
 

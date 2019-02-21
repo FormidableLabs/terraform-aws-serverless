@@ -47,8 +47,8 @@ $ yarn run build
 
 _Only for project administrators_.
 
-1. Update `HISTORY.md`, following format for previous versions
-2. Commit as "History for version NUMBER"
+1. Update `CHANGELOG.md`, following format for previous versions
+2. Commit as "Changes for version NUMBER"
 3. Run `npm version patch` (or `minor|major|VERSION`) to run tests and lint,
    build published directories, then update `package.json` + add a git tag.
 4. Run `git push && git push --tags`

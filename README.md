@@ -127,7 +127,7 @@ Once the core module is applied, three IAM groups will be created in the form of
 
 Once these groups exist, an AWS superuser can then attach these groups to AWS individual users as appropriate for the combination of service + stage + role (admin, developer, CI). Or, the IAM group attachments could be controlled via Terraform as well!
 
-The main upshot of this is after attachment, a given AWS user has the minimum necessary privileges for exactly the level of Serverless framework commands they need. Our sister Serverless application [reference project][ref_project] documentation has many examples of various `serverless` commands and which IAM group can properly run them.
+The main upshot of this is after attachment, a given AWS user has the minimum necessary privileges for exactly the level of Serverless framework commands they need. Our example Serverless application [reference project][ref_project] documentation has many examples of various `serverless` commands and which IAM group can properly run them.
 
 [serverless]: https://serverless.com/
 [Terraform]: https://www.terraform.io

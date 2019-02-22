@@ -50,8 +50,7 @@ In this manner, once an AWS superuser deploys a Terraform stack with this module
 This project provides a core base module that is the minimum that must be used. Once the core is in place, then other optional submodules can be added.
 
 - **Core (`/*`)**: Provides supporting IAM policies, roles, and groups so that an engineering team / CI can effectively create and maintain `serverless` Framework applications locked down to specific applications + environments with the minimum permissions needed.
-- **X-Ray (`modules/xray`)**: Optional submodule to add needed IAM support to enable AWS X-Ray performance tracing in a Serverless framework application. See the [submodule documentation](./modules/xray/README.md).
-
+- **X-Ray (`modules/xray`)**: Optional submodule to add needed IAM support to enable AWS X-Ray performance tracing in a Serverless framework application.
 ## Integration
 
 ### Reference project

@@ -45,12 +45,27 @@ $ yarn run build
 
 ## Releasing a new version to Terraform Registry
 
+### First release
+
+_Only for Formidable employees and for the **very first release/integration only**_.
+
+For the very first release, we need to integrate this project repository with the Terraform registry:
+
+1. In our repository, make sure the `formidable-terraform` user has `Admin` permission.
+2. Make sure you have at least one git-tagged version of the form `vX.X.X`.
+3. Log in to GitHub as the user `formidable-terraform` in the 1password `Individual Contributor IC` vault.
+    - **DO NOT USE YOUR PERSONAL GITHUB CREDENTIALS**: The Terraform registry requires permissions to all orgs that you have access to that are above and beyond what we're comfortable with.
+4. Navigate to https://registry.terraform.io/github/create
+5. Select this project by name for the field `Select Repository on GitHub` and click the `PUBLISH MODULE` button.
+
+### On every release
+
 _Only for project administrators_.
+
+We need to publish a tagged version to GitHub, which then causes Terraform to do a release:
 
 1. Update `CHANGELOG.md`, following format for previous versions
 2. Commit as "Changes for version NUMBER"
 3. Run `npm version patch` (or `minor|major|VERSION`) to run tests and lint,
    build published directories, then update `package.json` + add a git tag.
 4. Run `git push && git push --tags`
-
-TODO(REGISTRY): Add registry publishing step!!!

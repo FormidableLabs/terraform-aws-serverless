@@ -1,0 +1,22 @@
+{
+  "name": "terraform-aws-serverless",
+  "version": "0.0.1",
+  "description": "Infrastructure support for Serverless framework apps, done the right way",
+  "main": "index.js",
+  "repository": "git@github.com:FormidableLabs/terraform-aws-serverless.git",
+  "author": "Ryan Roemer <ryan.roemer@formidable.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build:format": "terraform fmt",
+    "build:toc-files": "find . -name '*.md' -type f -not -path './node_modules/*' -exec grep -l '<!-- START doctoc' {} \\;",
+    "build:toc": "doctoc --notitle $(yarn -s build:toc-files)",
+    "build:copy": "echo modules/* | xargs -n 1 cp variables.tf",
+    "build": "yarn build:copy && yarn build:format && yarn build:toc",
+    "check:git-dirty": "test -z \"$(git status --porcelain)\" || (echo \"ERROR: Found git dirty files:\n$(git status --porcelain)\" && exit 1)",
+    "check:ci": "yarn build && yarn check:git-dirty"
+  },
+  "devDependencies": {
+    "doctoc": "^1.4.0"
+  }
+}

@@ -14,6 +14,7 @@ Get your [serverless][] framework application to AWS, the **right way**.
 - [Overview](#overview)
 - [Concepts](#concepts)
 - [Modules](#modules)
+- [IAM Notes](#iam-notes)
 - [Integration](#integration)
   - [Reference project](#reference-project)
   - [Module integration](#module-integration)
@@ -50,7 +51,46 @@ In this manner, once an AWS superuser deploys a Terraform stack with this module
 This project provides a core base module that is the minimum that must be used. Once the core is in place, then other optional submodules can be added.
 
 - **Core (`/*`)**: Provides supporting IAM policies, roles, and groups so that an engineering team / CI can effectively create and maintain `serverless` Framework applications locked down to specific applications + environments with the minimum permissions needed.
-- **X-Ray (`modules/xray`)**: Optional submodule to add needed IAM support to enable AWS X-Ray performance tracing in a Serverless framework application.
+- **X-Ray (`modules/xray`)**: Optional submodule to add needed IAM support to enable AWS X-Ray performance tracing in a Serverless framework application. See the [submodule documentation](./modules/xray/README.md).
+
+## IAM Notes
+
+The IAM permissions are locked down to service + environment + role-specific ARNs as much as is possible within the AWS IAM and Serverless framework constraints. All of our modules/submodules use the same set of base ARNs declared, e.g., in [variables.tf](./variables.tf) and can be considered as follows:
+
+**Fully locked down**: These ARNs are sufficiently locked to service + environment.
+
+* `sls_cloudformation_arn`: Serverless-generated CloudFormation stack.
+* `sls_deploy_bucket_arn`: Serverless deployment bucket that stores Lambda code. (Note that our ARN accounts for service name truncation).
+* `sls_log_stream_arn`: Serverless target log stream.
+* `sls_events_arn`: Serverless created CloudWatch events.
+* `sls_lambda_arn`: Serverless lambda functions.
+* `sls_lambda_role_arn`: Serverless lambda execution role.
+
+**Not locked down**: These ARNs could be tighter, but presently are not.
+
+* `sls_apigw_arn`: Serverless API Gateway. The issue is that the ID of the resource is dynamically created during Serverless initial provisioning, so this module can't know it ahead of time. We have [a filed issue](https://github.com/FormidableLabs/terraform-aws-serverless/issues/8) to track and research potential tightening solutions.
+
+**IAM Wildcards**: Unfortunately, AWS IAM only allows wildcards (`"*"`) on certain resources, so we cannot actually lock down more. Accordingly, we limit the permissions to _only_ what is needed with a bias towards sticking such permissions in the `admin` IAM group. Here are our current wildcards:
+
+_Core IAM module_
+
+* `admin`
+    - `cloudformation:ListStacks`
+    - `cloudformation:PreviewStackUpdate`
+    - `lambda:CreateFunction`
+    - `lambda:GetEventSourceMapping`
+    - `lambda:ListEventSourceMappings`
+    - `lambda:ListFunctions`
+    - `cloudwatch:GetMetricStatistics`
+* `developer|ci`:
+    - `cloudformation:ValidateTemplate`
+
+_X-ray submodule_
+
+* Lambda execution role:
+    - `xray:PutTraceSegments`
+    - `xray:PutTelemetryRecords`
+
 ## Integration
 
 ### Reference project

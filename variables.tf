@@ -51,19 +51,38 @@ variable "sls_service_name" {
   default     = ""
 }
 
+# Configurable names for roles. Default `admin|developer|ci`.
+variable "role_admin_name" {
+  description = "Administrator role name"
+  default     = "admin"
+}
+
+variable "role_developer_name" {
+  description = "Developer role name"
+  default     = "developer"
+}
+
+variable "role_ci_name" {
+  description = "Continuous Integration (CI) role name"
+  default     = "ci"
+}
+
 data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
 
 # AWS / Serverless framework configuration.
 locals {
-  iam_partition    = "${var.iam_partition}"
-  iam_account_id   = "${var.iam_account_id != "" ? var.iam_account_id : data.aws_caller_identity.current.account_id}"
-  region           = "${var.region != "" ? var.region : data.aws_region.current.name}"
-  iam_region       = "${var.iam_region}"
-  stage            = "${var.stage}"
-  service_name     = "${var.service_name}"
-  tf_service_name  = "${var.tf_service_name != "" ? var.tf_service_name : "tf-${var.service_name}"}"
-  sls_service_name = "${var.sls_service_name != "" ? var.sls_service_name : "sls-${var.service_name}"}"
+  iam_partition       = "${var.iam_partition}"
+  iam_account_id      = "${var.iam_account_id != "" ? var.iam_account_id : data.aws_caller_identity.current.account_id}"
+  region              = "${var.region != "" ? var.region : data.aws_region.current.name}"
+  iam_region          = "${var.iam_region}"
+  stage               = "${var.stage}"
+  service_name        = "${var.service_name}"
+  tf_service_name     = "${var.tf_service_name != "" ? var.tf_service_name : "tf-${var.service_name}"}"
+  sls_service_name    = "${var.sls_service_name != "" ? var.sls_service_name : "sls-${var.service_name}"}"
+  role_admin_name     = "${var.role_admin_name}"
+  role_developer_name = "${var.role_developer_name}"
+  role_ci_name        = "${var.role_ci_name}"
 
   tags = "${map(
     "Service", "${var.service_name}",

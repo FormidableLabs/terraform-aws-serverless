@@ -132,11 +132,14 @@ module "serverless" {
   stage        = "${var.stage}"
 
   # (Default values)
-  # iam_region        = `*`
-  # iam_partition     = `*`
-  # iam_account_id    = `AWS_CALLER account`
-  # tf_service_name   = `tf-SERVICE_NAME`
-  # sls_service_name  = `sls-SERVICE_NAME`
+  # iam_region          = `*`
+  # iam_partition       = `*`
+  # iam_account_id      = `AWS_CALLER account`
+  # tf_service_name     = `tf-SERVICE_NAME`
+  # sls_service_name    = `sls-SERVICE_NAME`
+  # role_admin_name     = `admin`
+  # role_developer_name = `developer`
+  # role_ci_name        = `ci`
 }
 ```
 
@@ -168,6 +171,9 @@ Let's unpack the parameters a bit more (located in [variables.tf](variables.tf))
 - `iam_account_id`: The [AWS account ID][] to limit IAM privileges to. Defaults to the current caller's account ID.
 - `tf_service_name`: The service name for Terraform-created resources. It is very useful to distinguish between those created by Terraform / this module and those created by the Serverless framework. By default, `tf-${service_name}` for "Terraform". E.g., `tf-simple-reference` or `tf-sparklepants`.
 - `sls_service_name`: The service name for Serverless as defined in `serverless.yml` in the `service` field. Highly recommended to match our default of `sls-${service_name}` for "Serverless".
+- `role_admin_name`: The name for the IAM group, policy, etc. for administrators. (Default: `admin`).
+- `role_developer_name`: The name for the IAM group, policy, etc. for developers. (Default: `developer`).
+- `role_ci_name`: The name for the IAM group, policy, etc. for Continuous Integration (CI) / automation. (Default: `ci`).
 
 Most likely, an AWS superuser will be needed to run the Terraform application for these IAM / other resources.
 

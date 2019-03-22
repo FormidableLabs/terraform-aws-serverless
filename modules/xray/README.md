@@ -72,11 +72,14 @@ module "serverless_xray" {
   stage        = "${var.stage}"
 
   # (Default values)
-  # iam_region        = `*`
-  # iam_partition     = `*`
-  # iam_account_id    = `AWS_CALLER account`
-  # tf_service_name   = `tf-SERVICE_NAME`
-  # sls_service_name  = `sls-SERVICE_NAME`
+  # iam_region          = `*`
+  # iam_partition       = `*`
+  # iam_account_id      = `AWS_CALLER account`
+  # tf_service_name     = `tf-SERVICE_NAME`
+  # sls_service_name    = `sls-SERVICE_NAME`
+  # role_admin_name     = `admin`
+  # role_developer_name = `developer`
+  # role_ci_name        = `ci`
 }
 ```
 

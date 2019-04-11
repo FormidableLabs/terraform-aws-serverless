@@ -77,14 +77,13 @@ _Core IAM module_
 * `admin`
     - `cloudformation:ListStacks`
     - `cloudformation:PreviewStackUpdate`
-    - `lambda:CreateFunction`
     - `lambda:GetEventSourceMapping`
     - `lambda:ListEventSourceMappings`
     - `lambda:ListFunctions`
     - `cloudwatch:GetMetricStatistics`
 * `developer|ci`:
     - `cloudformation:ValidateTemplate`
-* One of the above (depending on `opts_many_lambdas`):
+* One of the above (depending on `opt_many_lambdas`):
     - `logs:DescribeLogGroups`
 
 _X-ray submodule_

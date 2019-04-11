@@ -5,6 +5,8 @@ Changes
 
 * Adds `opt_many_lambdas` option to allow Lambda function create/delete privileges for the `developer|ci` groups to facilitate application development around many independent functions.
   [#29](https://github.com/FormidableLabs/terraform-aws-serverless/issues/29)
+* Lock down `lambda:CreateFunction` to `sls_lambda_arn`.
+* Expand `logs:DescribeLogGroups` to wildcard-like `sls_log_stream_all_arn`. Needed for create-then-delete-then-create... scenario for functions.
 
 ## 0.1.1
 

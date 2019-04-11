@@ -11,7 +11,6 @@ data "aws_iam_policy_document" "cd_lambdas" {
   # Lambda: Create, delete the serverless Lambda.
   statement {
     actions = [
-      "lambda:CreateFunction",
       "lambda:GetEventSourceMapping",
       "lambda:ListEventSourceMappings",
       "lambda:ListFunctions",
@@ -25,7 +24,10 @@ data "aws_iam_policy_document" "cd_lambdas" {
   }
 
   statement {
+    # Note: `lambda:CreateFunction` now supports function ARNs!
+    # https://docs.aws.amazon.com/lambda/latest/dg/lambda-api-permissions-ref.html
     actions = [
+      "lambda:CreateFunction",
       "lambda:DeleteFunction",
     ]
 

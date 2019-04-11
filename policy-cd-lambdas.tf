@@ -31,6 +31,17 @@ data "aws_iam_policy_document" "cd_lambdas" {
     ]
   }
 
+  # IAM: Integrate Lambda roles.
+  statement {
+    actions = [
+      "iam:PutRolePolicy",
+    ]
+
+    resources = [
+      "${local.sls_lambda_role_arn}",
+    ]
+  }
+
   # Logs (`sls logs`)
   # - Need "all" ARN for `logs:DescribeLogGroups` in creating deleted Lambda.
   statement {
@@ -40,6 +51,16 @@ data "aws_iam_policy_document" "cd_lambdas" {
 
     resources = [
       "${local.sls_log_stream_all_arn}",
+    ]
+  }
+
+  statement {
+    actions = [
+      "logs:DeleteLogGroup",
+    ]
+
+    resources = [
+      "${local.sls_log_stream_arn}",
     ]
   }
 }

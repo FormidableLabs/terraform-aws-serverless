@@ -77,7 +77,6 @@ data "aws_iam_policy_document" "admin" {
       "iam:CreateRole",
       "iam:DeleteRole",
       "iam:DetachRolePolicy",
-      "iam:PutRolePolicy",
       "iam:AttachRolePolicy",
       "iam:DeleteRolePolicy",
     ]
@@ -92,7 +91,6 @@ data "aws_iam_policy_document" "admin" {
     actions = [
       "logs:CreateLogGroup",
       "logs:CreateLogStream",
-      "logs:DeleteLogGroup",
       "logs:PutLogEvents",
     ]
 

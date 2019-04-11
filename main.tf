@@ -22,7 +22,6 @@ resource "aws_iam_group_policy_attachment" "admin_admin" {
 }
 
 resource "aws_iam_group_policy_attachment" "admin_cd_lambdas" {
-  count      = "${local.opt_many_lambdas ? 0 : 1}"
   group      = "${aws_iam_group.admin.name}"
   policy_arn = "${aws_iam_policy.cd_lambdas.arn}"
 }

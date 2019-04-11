@@ -56,7 +56,6 @@ data "aws_iam_policy_document" "admin" {
   # Lambda: Create, update, delete the serverless Lambda.
   statement {
     actions = [
-      "lambda:CreateFunction",
       "lambda:GetEventSourceMapping",
       "lambda:ListEventSourceMappings",
       "lambda:ListFunctions",
@@ -66,16 +65,6 @@ data "aws_iam_policy_document" "admin" {
     # https://iam.cloudonaut.io/reference/lambda
     resources = [
       "*",
-    ]
-  }
-
-  statement {
-    actions = [
-      "lambda:DeleteFunction",
-    ]
-
-    resources = [
-      "${local.sls_lambda_arn}",
     ]
   }
 

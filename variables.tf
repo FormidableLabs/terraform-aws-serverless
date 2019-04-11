@@ -148,4 +148,8 @@ locals {
   # - **Note**: Adding `${local.iam_account_id}` will cause at least `-developer`
   #   to fail for permissions.
   sls_apigw_arn = "arn:${local.iam_partition}:apigateway:${local.iam_region}::/restapis*"
+
+  # All log streams.
+  # Needed for `logs:DescribeLogGroups`
+  sls_log_stream_all_arn = "arn:${local.iam_partition}:logs:${local.iam_region}:${local.iam_account_id}:log-group::log-stream:"
 }

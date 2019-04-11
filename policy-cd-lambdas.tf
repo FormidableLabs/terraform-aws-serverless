@@ -30,4 +30,16 @@ data "aws_iam_policy_document" "cd_lambdas" {
       "${local.sls_lambda_arn}",
     ]
   }
+
+  # Logs (`sls logs`)
+  # - Need "all" ARN for `logs:DescribeLogGroups` in creating deleted Lambda.
+  statement {
+    actions = [
+      "logs:DescribeLogGroups",
+    ]
+
+    resources = [
+      "${local.sls_log_stream_all_arn}",
+    ]
+  }
 }

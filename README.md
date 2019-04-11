@@ -84,6 +84,8 @@ _Core IAM module_
     - `cloudwatch:GetMetricStatistics`
 * `developer|ci`:
     - `cloudformation:ValidateTemplate`
+* One of the above (depending on `opts_many_lambdas`):
+    - `logs:DescribeLogGroups`
 
 _X-ray submodule_
 

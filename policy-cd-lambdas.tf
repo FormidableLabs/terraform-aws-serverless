@@ -12,6 +12,9 @@ data "aws_iam_policy_document" "cd_lambdas" {
   statement {
     actions = [
       "lambda:CreateFunction",
+      "lambda:GetEventSourceMapping",
+      "lambda:ListEventSourceMappings",
+      "lambda:ListFunctions",
     ]
 
     # Necessary wildcards

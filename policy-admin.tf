@@ -53,21 +53,6 @@ data "aws_iam_policy_document" "admin" {
     ]
   }
 
-  # Lambda: Create, update, delete the serverless Lambda.
-  statement {
-    actions = [
-      "lambda:GetEventSourceMapping",
-      "lambda:ListEventSourceMappings",
-      "lambda:ListFunctions",
-    ]
-
-    # Necessary wildcards
-    # https://iam.cloudonaut.io/reference/lambda
-    resources = [
-      "*",
-    ]
-  }
-
   # IAM: Allow the built-in serverless framework Lambda Roles to hook up to the
   # Lambda.
   # - https://github.com/serverless/serverless/issues/1439#issuecomment-363383862

@@ -142,6 +142,7 @@ module "serverless" {
   # role_admin_name     = `admin`
   # role_developer_name = `developer`
   # role_ci_name        = `ci`
+  # opt_many_lambdas    = false
 }
 ```
 
@@ -176,6 +177,7 @@ Let's unpack the parameters a bit more (located in [variables.tf](variables.tf))
 - `role_admin_name`: The name for the IAM group, policy, etc. for administrators. (Default: `admin`).
 - `role_developer_name`: The name for the IAM group, policy, etc. for developers. (Default: `developer`).
 - `role_ci_name`: The name for the IAM group, policy, etc. for Continuous Integration (CI) / automation. (Default: `ci`).
+- `opt_many_lambdas`: By default, only the `admin` group can create and delete Lambda functions which gives extra security for a "mono-Lambda" application approach. However, many Lambda applications utilize multiple different functions which need to be created and deleted by the `developer` and `ci` group. Setting this option to `true` enables Lambda function create/delete privileges for all groups. (Default: `false`)
 
 Most likely, an AWS superuser will be needed to run the Terraform application for these IAM / other resources.
 

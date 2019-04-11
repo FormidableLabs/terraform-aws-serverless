@@ -86,19 +86,6 @@ data "aws_iam_policy_document" "admin" {
     ]
   }
 
-  # Logs (`sls deploy`, `sls logs`)
-  statement {
-    actions = [
-      "logs:CreateLogGroup",
-      "logs:CreateLogStream",
-      "logs:PutLogEvents",
-    ]
-
-    resources = [
-      "${local.sls_log_stream_arn}",
-    ]
-  }
-
   # CloudWatch Events
   # https://serverless.com/framework/docs/providers/aws/events/cloudwatch-event/
   statement {

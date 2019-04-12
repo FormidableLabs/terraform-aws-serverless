@@ -53,32 +53,6 @@ data "aws_iam_policy_document" "admin" {
     ]
   }
 
-  # Lambda: Create, update, delete the serverless Lambda.
-  statement {
-    actions = [
-      "lambda:CreateFunction",
-      "lambda:GetEventSourceMapping",
-      "lambda:ListEventSourceMappings",
-      "lambda:ListFunctions",
-    ]
-
-    # Necessary wildcards
-    # https://iam.cloudonaut.io/reference/lambda
-    resources = [
-      "*",
-    ]
-  }
-
-  statement {
-    actions = [
-      "lambda:DeleteFunction",
-    ]
-
-    resources = [
-      "${local.sls_lambda_arn}",
-    ]
-  }
-
   # IAM: Allow the built-in serverless framework Lambda Roles to hook up to the
   # Lambda.
   # - https://github.com/serverless/serverless/issues/1439#issuecomment-363383862
@@ -88,27 +62,12 @@ data "aws_iam_policy_document" "admin" {
       "iam:CreateRole",
       "iam:DeleteRole",
       "iam:DetachRolePolicy",
-      "iam:PutRolePolicy",
       "iam:AttachRolePolicy",
       "iam:DeleteRolePolicy",
     ]
 
     resources = [
       "${local.sls_lambda_role_arn}",
-    ]
-  }
-
-  # Logs (`sls deploy`, `sls logs`)
-  statement {
-    actions = [
-      "logs:CreateLogGroup",
-      "logs:CreateLogStream",
-      "logs:DeleteLogGroup",
-      "logs:PutLogEvents",
-    ]
-
-    resources = [
-      "${local.sls_log_stream_arn}",
     ]
   }
 

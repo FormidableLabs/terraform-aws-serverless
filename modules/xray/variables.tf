@@ -67,6 +67,11 @@ variable "role_ci_name" {
   default     = "ci"
 }
 
+variable "opt_many_lambdas" {
+  description = "Allow all groups (incl developer, ci) to create and delete Lambdas"
+  default     = false
+}
+
 data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
 
@@ -83,6 +88,7 @@ locals {
   role_admin_name     = "${var.role_admin_name}"
   role_developer_name = "${var.role_developer_name}"
   role_ci_name        = "${var.role_ci_name}"
+  opt_many_lambdas    = "${var.opt_many_lambdas}"
 
   tags = "${map(
     "Service", "${var.service_name}",
@@ -142,4 +148,8 @@ locals {
   # - **Note**: Adding `${local.iam_account_id}` will cause at least `-developer`
   #   to fail for permissions.
   sls_apigw_arn = "arn:${local.iam_partition}:apigateway:${local.iam_region}::/restapis*"
+
+  # All log streams.
+  # Needed for `logs:DescribeLogGroups`
+  sls_log_stream_all_arn = "arn:${local.iam_partition}:logs:${local.iam_region}:${local.iam_account_id}:log-group::log-stream:"
 }

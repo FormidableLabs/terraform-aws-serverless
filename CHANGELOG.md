@@ -1,7 +1,7 @@
 Changes
 =======
 
-## UNRELEASED
+## 0.2.0
 
 * Adds `opt_many_lambdas` option to allow Lambda function create/delete privileges for the `developer|ci` groups to facilitate application development around many independent functions.
   [#29](https://github.com/FormidableLabs/terraform-aws-serverless/issues/29)

@@ -30,6 +30,9 @@ data "aws_iam_policy_document" "developer" {
       "cloudformation:DescribeStackEvents",
       "cloudformation:DescribeStackResource",
       "cloudformation:DescribeStackResources",
+      "cloudformation:ListChangeSets",
+      "cloudformation:ListStackResources",
+      "cloudformation:Get*",
       "cloudformation:UpdateStack",
       "cloudformation:DescribeStacks",
     ]

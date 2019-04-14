@@ -30,9 +30,6 @@ data "aws_iam_policy_document" "admin" {
     actions = [
       "cloudformation:CreateStack",
       "cloudformation:CreateUploadBucket",
-      "cloudformation:ListChangeSets",
-      "cloudformation:ListStackResources",
-      "cloudformation:Get*",
       "cloudformation:DeleteStack",
     ]
 

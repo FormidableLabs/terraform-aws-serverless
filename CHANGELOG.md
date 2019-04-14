@@ -1,7 +1,7 @@
 Changes
 =======
 
-## UNRELEASED
+## 0.2.1
 
 * Move `cloudformation:List|Get` permissions to `developer|ci` policy since they're limited already to `sls_cloudformation_arn`.
   [#26](https://github.com/FormidableLabs/terraform-aws-serverless/issues/26)

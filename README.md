@@ -20,6 +20,7 @@ Get your [serverless][] framework application to AWS, the **right way**.
   - [Reference project](#reference-project)
   - [Module integration](#module-integration)
   - [AWS IAM group integration](#aws-iam-group-integration)
+- [Maintenance Status](#maintenance-status)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 

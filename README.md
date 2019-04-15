@@ -2,6 +2,7 @@ AWS Serverless Module
 =====================
 [![Terraform][tf_img]][tf_site]
 [![Travis Status][trav_img]][trav_site]
+[![Maintenance Status][maintenance-image]](#maintenance-status)
 
 Get your [serverless][] framework application to AWS, the **right way**.
 
@@ -199,6 +200,11 @@ The main upshot of this is after attachment, a given AWS user has the minimum ne
 [AWS account ID]: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html#cfn-pseudo-param-accountid
 [AWS X-Ray]: https://aws.amazon.com/xray/
 
+## Maintenance Status
+
+**Experimental:** This project is quite new. We're not sure what our ongoing maintenance plan for this project will be. Bug reports, feature requests and pull requests are welcome. If you like this project, let us know!
+
+[maintenance-image]: https://img.shields.io/badge/maintenance-experimental-blueviolet.svg
 [tf_img]: https://img.shields.io/badge/terraform-published-blue.svg
 [tf_site]: https://registry.terraform.io/modules/FormidableLabs/serverless/aws
 [trav_img]: https://api.travis-ci.org/FormidableLabs/inspectpack.svg

@@ -202,9 +202,9 @@ The main upshot of this is after attachment, a given AWS user has the minimum ne
 
 ## Maintenance Status
 
-**Experimental:** This project is quite new. We're not sure what our ongoing maintenance plan for this project will be. Bug reports, feature requests and pull requests are welcome. If you like this project, let us know!
+**Active:** Formidable is actively working on this project, and we expect to continue for work for the foreseeable future. Bug reports, feature requests and pull requests are welcome. 
 
-[maintenance-image]: https://img.shields.io/badge/maintenance-experimental-blueviolet.svg
+[maintenance-image]: https://img.shields.io/badge/maintenance-active-green.svg
 [tf_img]: https://img.shields.io/badge/terraform-published-blue.svg
 [tf_site]: https://registry.terraform.io/modules/FormidableLabs/serverless/aws
 [trav_img]: https://api.travis-ci.org/FormidableLabs/inspectpack.svg

@@ -1,6 +1,11 @@
 Changes
 =======
 
+## Unreleased
+
+* Add IAM group name outputs for `admind|developer|ci`.
+  [#34](https://github.com/FormidableLabs/terraform-aws-serverless/issues/34)
+
 ## 0.2.1
 
 * Move `cloudformation:List|Get` permissions to `developer|ci` policy since they're limited already to `sls_cloudformation_arn`.

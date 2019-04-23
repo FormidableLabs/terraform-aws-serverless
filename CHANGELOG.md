@@ -1,7 +1,7 @@
 Changes
 =======
 
-## Unreleased
+## 0.2.2
 
 * Add IAM group name outputs for `admind|developer|ci`.
   [#34](https://github.com/FormidableLabs/terraform-aws-serverless/issues/34)

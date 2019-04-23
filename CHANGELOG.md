@@ -1,6 +1,11 @@
 Changes
 =======
 
+## UNRELEASED
+
+* BUG: Add more IAM permissions after `serverless` framework introduced default S3 bucket encryption in [serverless/serverless#5800](https://github.com/serverless/serverless/pull/5800).
+  [#33](https://github.com/FormidableLabs/terraform-aws-serverless/issues/33)
+
 ## 0.2.2
 
 * Add IAM group name outputs for `admind|developer|ci`.

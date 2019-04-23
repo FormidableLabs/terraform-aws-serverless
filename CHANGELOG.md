@@ -3,7 +3,7 @@ Changes
 
 ## UNRELEASED
 
-* BUG: Add more IAM permissions after `serverless` framework introduced default S3 bucket encryption in [serverless/serverless#5800](https://github.com/serverless/serverless/pull/5800).
+* BUG: Add more IAM permissions after `serverless` framework introduced default S3 bucket encryption in [serverless/serverless#5800](https://github.com/serverless/serverless/pull/5800). _Note_ if you have an existing serverless deployment, after updating the Terraform support stack you will need to run an `admin` user serverless deploy to properly set the encryption configuration for subsequent `developer|ci` deploys.
   [#33](https://github.com/FormidableLabs/terraform-aws-serverless/issues/33)
 
 ## 0.2.2

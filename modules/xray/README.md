@@ -35,7 +35,7 @@ Perhaps the easiest place to start is our [sample reference project][ref_project
 
 The first step is to make sure that the [core IAM `serverless` module][core_module] is integrated. Then, this optional module can be added as a resource after.
 
-_Note_: There is no direct dependencies between the core module and this submodule because everything is re-using well-known resource names that are defined across the Serverless framework stack and your Terraform support stack.
+_Note_: There are no direct dependencies between the core module and this submodule because everything is re-using well-known resource names that are defined across the Serverless framework stack and your Terraform support stack.
 
 ```hcl
 # variables.tf
@@ -47,7 +47,6 @@ variable "stage" {
 # main.tf
 provider "aws" {
   region  = "us-east-1"
-  version = "~> 1.19"
 }
 
 # Core `serverless` IAM support.
@@ -116,3 +115,4 @@ The parameters (located in [variables.tf](variables.tf)) are exactly the same as
 
 [core_module]: ../../README.md
 [xray_iam]: https://docs.aws.amazon.com/IAM/latest/UserGuide/list_awsx-ray.html
+[ref_project]: https://github.com/FormidableLabs/aws-lambda-serverless-reference

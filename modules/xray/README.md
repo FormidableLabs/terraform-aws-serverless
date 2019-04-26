@@ -1,6 +1,3 @@
-
-
-
 AWS Serverless - X-ray Module
 =============================
 

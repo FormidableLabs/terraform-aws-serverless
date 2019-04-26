@@ -6,7 +6,7 @@
 # - View metrics from `sls metrics`
 ###############################################################################
 resource "aws_iam_policy" "admin" {
-  name   = "${local.tf_service_name}-${local.stage}-${local.role_admin_name}"
+  name   = "${local.tf_group_admin_name}"
   path   = "/"
   policy = "${data.aws_iam_policy_document.admin.json}"
 }

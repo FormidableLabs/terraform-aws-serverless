@@ -94,6 +94,17 @@ _X-ray submodule_
     - `xray:PutTraceSegments`
     - `xray:PutTelemetryRecords`
 
+_VPC submodule_
+
+* `developer|ci`:
+    - `ec2:DescribeSecurityGroups`
+    - `ec2:DescribeVpcs`
+    - `ec2:DescribeSubnets`
+* Lambda execution role:
+    - `ec2:CreateNetworkInterface`
+    - `ec2:DescribeNetworkInterfaces`
+    - `ec2:DeleteNetworkInterface` (It is disappointing that _deleting_ an ENI cannot be limited further...)
+
 ## Integration
 
 ### Reference project
@@ -203,7 +214,7 @@ The main upshot of this is after attachment, a given AWS user has the minimum ne
 
 ## Maintenance Status
 
-**Active:** Formidable is actively working on this project, and we expect to continue for work for the foreseeable future. Bug reports, feature requests and pull requests are welcome. 
+**Active:** Formidable is actively working on this project, and we expect to continue for work for the foreseeable future. Bug reports, feature requests and pull requests are welcome.
 
 [maintenance-image]: https://img.shields.io/badge/maintenance-active-green.svg
 [tf_img]: https://img.shields.io/badge/terraform-published-blue.svg

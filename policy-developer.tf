@@ -6,7 +6,7 @@
 # - View logs and run various `serverless` commands
 ###############################################################################
 resource "aws_iam_policy" "developer" {
-  name   = "${local.tf_service_name}-${local.stage}-${local.role_developer_name}"
+  name   = "${local.tf_group_developer_name}"
   path   = "/"
   policy = "${data.aws_iam_policy_document.developer.json}"
 }

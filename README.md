@@ -220,6 +220,6 @@ The main upshot of this is after attachment, a given AWS user has the minimum ne
 [maintenance-image]: https://img.shields.io/badge/maintenance-active-green.svg
 [tf_img]: https://img.shields.io/badge/terraform-published-blue.svg
 [tf_site]: https://registry.terraform.io/modules/FormidableLabs/serverless/aws
-[trav_img]: https://api.travis-ci.org/FormidableLabs/terraform-aws-serverless.svg
-[trav_site]: https://travis-ci.org/FormidableLabs/terraform-aws-serverless
+[trav_img]: https://api.travis-ci.com/FormidableLabs/terraform-aws-serverless.svg
+[trav_site]: https://travis-ci.com/FormidableLabs/terraform-aws-serverless
 [ref_project]: https://github.com/FormidableLabs/aws-lambda-serverless-reference

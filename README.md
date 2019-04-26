@@ -39,7 +39,7 @@ This [Terraform][] module provides a production-ready base of AWS permissions / 
 
 ## Concepts
 
-This module allows practical isolation / compartmentalization of privileges within a single AWS account along the folowing axes:
+This module allows practical isolation / compartmentalization of privileges within a single AWS account along the following axes:
 
 * **Stage/Environment**: An arbitrary environment to isolate -- this module doesn't restrict selection in any way other than there has to be at least one. In practice, a good set of choices may be something like `sandbox`, `development`, `staging`, `production`.
 * **IAM Groups**: This module creates/enforces a scheme wherein:

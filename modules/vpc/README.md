@@ -34,7 +34,7 @@ Perhaps the easiest place to start is our [sample reference project][ref_project
 Note that the reference project provides two very useful examples:
 
 - **Per-function `vpc` in `serverless.yml`**: We only add the VPC configuration to the `functions.vpc` function (not the global `provider`).
-- **An actual VPC instance**: We use the wonderful [`terraform-aws-modules/vpc/aws`](https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/1.64.0) to create a [2xAZ private + public subnetted VPC](https://github.com/FormidableLabs/aws-lambda-serverless-reference/blob/master/terraform/main.tf#L51-L165) with internet access, a dedicated security group that only allows egress traffic, and export the security group ID + subnet IDs via a small CloudFormation stack for easy consumption in [`serverless.yml`](https://github.com/FormidableLabs/aws-lambda-serverless-reference/blob/master/serverless.yml#L62-L77)
+- **An actual VPC instance**: We use the wonderful [`terraform-aws-modules/vpc/aws`](https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/1.64.0) to create a [2xAZ private + public subnetted VPC](https://github.com/FormidableLabs/aws-lambda-serverless-reference/blob/master/terraform/main.tf) with internet access, a dedicated security group that only allows egress traffic, and export the security group ID + subnet IDs via a small CloudFormation stack for easy consumption in [`serverless.yml`](https://github.com/FormidableLabs/aws-lambda-serverless-reference/blob/master/serverless.yml)
 
 ### Module integration
 

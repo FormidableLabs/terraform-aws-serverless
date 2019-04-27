@@ -1,7 +1,7 @@
 Changes
 =======
 
-## UNRELEASED
+## 0.3.0
 
 * Submodule: Add `vpc` submodule support for `serverless` apps.
   [#10](https://github.com/FormidableLabs/terraform-aws-serverless/issues/10)

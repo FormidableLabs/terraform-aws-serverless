@@ -1,7 +1,7 @@
-AWS Serverless - X-ray Module
-=============================
+AWS Serverless - VPC Module
+===========================
 
-This module enables [AWS X-ray][] support for [serverless][] framework applications.
+This module enables [AWS VPC][] support for [serverless][] framework applications.
 
 ## Contents
 
@@ -18,7 +18,9 @@ This module enables [AWS X-ray][] support for [serverless][] framework applicati
 
 ## Overview
 
-This module adds [IAM permissions][xray_iam] to the Lambda execution role created by the Serverless framework as part of its CloudFormation stack so that the role may send trace data to AWS.
+This module adds [IAM permissions][vpc_iam] to the Lambda execution role created by the Serverless framework  and the `developer` IAM role created by the core module of this project to enable deploying a Serverless framework application into an existing VPC.
+
+_Note_: This module does _not_ actually create a VPC for you, just the permissions to use one. If you need a VPC, see our [reference project](#reference-project) for guidance.
 
 ## Integration
 
@@ -27,9 +29,12 @@ This module adds [IAM permissions][xray_iam] to the Lambda execution role create
 Perhaps the easiest place to start is our [sample reference project][ref_project] that creates a Serverless framework service named `simple-reference` that integrates the core module and submodules of this project. The relevant files to review include:
 
 - Serverless framework
-    - [serverless.yml](https://github.com/FormidableLabs/aws-lambda-serverless-reference/blob/master/serverless.yml): Serverless framework configuration. The `xray` function is configured with X-ray tracing.
-- Example Node.js handlers/servers
-    - [src/server/xray.js](https://github.com/FormidableLabs/aws-lambda-serverless-reference/blob/master/src/server/xray.js): Example server additionally enabling [AWS X-Ray][] performance tracing additionally using the `serverless_xray` submodule.
+    - [serverless.yml](https://github.com/FormidableLabs/aws-lambda-serverless-reference/blob/master/serverless.yml): Serverless framework configuration. The `vpc` function is a simple Express application (same as [`base`](https://github.com/FormidableLabs/aws-lambda-serverless-reference/blob/master/src/server/base.js)) deployed to a VPC.
+
+Note that the reference project provides two very useful examples:
+
+- **Per-function `vpc` in `serverless.yml`**: We only add the VPC configuration to the `functions.vpc` function (not the global `provider`).
+- **An actual VPC instance**: We use the wonderful [`terraform-aws-modules/vpc/aws`](https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/1.64.0) to create a [2xAZ private + public subnetted VPC](https://github.com/FormidableLabs/aws-lambda-serverless-reference/blob/master/terraform/main.tf) with internet access, a dedicated security group that only allows egress traffic, and export the security group ID + subnet IDs via a small CloudFormation stack for easy consumption in [`serverless.yml`](https://github.com/FormidableLabs/aws-lambda-serverless-reference/blob/master/serverless.yml)
 
 ### Module integration
 
@@ -58,9 +63,9 @@ module "serverless" {
   stage        = "${var.stage}"
 }
 
-# Add optional X-ray support to lambda execution roles.
-module "serverless_xray" {
-  source = "FormidableLabs/serverless/aws//modules/xray"
+# Add optional VPC support to lambda execution and IAM group roles.
+module "serverless_vpc" {
+  source = "FormidableLabs/serverless/aws//modules/vpc"
 
   # Same variables as for `serverless` module.
   region       = "us-east-1"
@@ -91,28 +96,24 @@ provider:
   runtime: nodejs8.10
   region: "us-east-1"
   stage: ${opt:stage, "development"}
+  vpc:
+    securityGroupIds:
+      - INSERT_SG_ID(S)
+    subnetIds:
+      - INSERT_SUBNET_ID(S)
 
 functions:
   server:
     # ...
-
-resources:
-  Resources:
-    # Enable X-ray tracing on the Lambda. The `serverless_xray` module gives
-    # correct IAM permissions to enable this resource on the Serverless-
-    # generated CloudFormation Stack.
-    ServerLambdaFunction: # Generated resource name for `server` function...
-      Properties:
-        TracingConfig:
-          Mode: Active
 ```
 
 The parameters (located in [variables.tf](variables.tf)) are exactly the same as for the [core IAM module][core_module].
 
+
 [serverless]: https://serverless.com/
 [Terraform]: https://www.terraform.io
-[AWS X-Ray]: https://aws.amazon.com/xray/
+[AWS VPC]: https://aws.amazon.com/vpc/
+[vpc_iam]: https://docs.aws.amazon.com/vpc/latest/userguide/VPC_IAM.html
 
 [core_module]: ../../README.md
-[xray_iam]: https://docs.aws.amazon.com/IAM/latest/UserGuide/list_awsx-ray.html
 [ref_project]: https://github.com/FormidableLabs/aws-lambda-serverless-reference

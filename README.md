@@ -53,7 +53,8 @@ In this manner, once an AWS superuser deploys a Terraform stack with this module
 This project provides a core base module that is the minimum that must be used. Once the core is in place, then other optional submodules can be added.
 
 - **Core (`/*`)**: Provides supporting IAM policies, roles, and groups so that an engineering team / CI can effectively create and maintain `serverless` Framework applications locked down to specific applications + environments with the minimum permissions needed.
-- **X-Ray (`modules/xray`)**: Optional submodule to add needed IAM support to enable AWS X-Ray performance tracing in a Serverless framework application. See the [submodule documentation](./modules/xray/README.md).
+- **X-Ray (`modules/xray`)**: Optional submodule to add needed IAM support to enable [AWS X-Ray][] performance tracing in a Serverless framework application. See the [submodule documentation](./modules/xray/README.md).
+- **VPC (`modules/vpc`)**: Optional submodule to add needed IAM support to enable a Serverless framework application to deploy in [AWS VPC][]. See the [submodule documentation](./modules/vpc/README.md).
 
 ## IAM Notes
 
@@ -94,6 +95,17 @@ _X-ray submodule_
     - `xray:PutTraceSegments`
     - `xray:PutTelemetryRecords`
 
+_VPC submodule_
+
+* `developer|ci`:
+    - `ec2:DescribeSecurityGroups`
+    - `ec2:DescribeVpcs`
+    - `ec2:DescribeSubnets`
+* Lambda execution role:
+    - `ec2:CreateNetworkInterface`
+    - `ec2:DescribeNetworkInterfaces`
+    - `ec2:DeleteNetworkInterface` (It is disappointing that _deleting_ an ENI cannot be limited further...)
+
 ## Integration
 
 ### Reference project
@@ -123,7 +135,6 @@ variable "stage" {
 # main.tf
 provider "aws" {
   region  = "us-east-1"
-  version = "~> 1.19"
 }
 
 # Core `serverless` IAM support.
@@ -194,20 +205,21 @@ Once these groups exist, an AWS superuser can then attach these groups to AWS in
 
 The main upshot of this is after attachment, a given AWS user has the minimum necessary privileges for exactly the level of Serverless framework commands they need. Our example Serverless application [reference project][ref_project] documentation has many examples of various `serverless` commands and which IAM group can properly run them.
 
+## Maintenance Status
+
+**Active:** Formidable is actively working on this project, and we expect to continue for work for the foreseeable future. Bug reports, feature requests and pull requests are welcome.
+
 [serverless]: https://serverless.com/
 [Terraform]: https://www.terraform.io
 [AWS region]: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html#cfn-pseudo-param-region
 [AWS partition]: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html#cfn-pseudo-param-partition
 [AWS account ID]: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html#cfn-pseudo-param-accountid
 [AWS X-Ray]: https://aws.amazon.com/xray/
-
-## Maintenance Status
-
-**Active:** Formidable is actively working on this project, and we expect to continue for work for the foreseeable future. Bug reports, feature requests and pull requests are welcome. 
+[AWS VPC]: https://aws.amazon.com/vpc/
 
 [maintenance-image]: https://img.shields.io/badge/maintenance-active-green.svg
 [tf_img]: https://img.shields.io/badge/terraform-published-blue.svg
 [tf_site]: https://registry.terraform.io/modules/FormidableLabs/serverless/aws
-[trav_img]: https://api.travis-ci.org/FormidableLabs/inspectpack.svg
-[trav_site]: https://travis-ci.org/FormidableLabs/inspectpack
+[trav_img]: https://api.travis-ci.com/FormidableLabs/terraform-aws-serverless.svg
+[trav_site]: https://travis-ci.com/FormidableLabs/terraform-aws-serverless
 [ref_project]: https://github.com/FormidableLabs/aws-lambda-serverless-reference

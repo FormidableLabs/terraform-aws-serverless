@@ -98,6 +98,11 @@ locals {
 
 # Capture repeated/complicated AWS IAM resources to a single location.
 locals {
+  # Our Terraform created names.
+  tf_group_admin_name     = "${local.tf_service_name}-${local.stage}-${local.role_admin_name}"
+  tf_group_developer_name = "${local.tf_service_name}-${local.stage}-${local.role_developer_name}"
+  tf_group_ci_name        = "${local.tf_service_name}-${local.stage}-${local.role_ci_name}"
+
   # Serverless CloudFormation stack ARN.
   sls_cloudformation_arn = "arn:${local.iam_partition}:cloudformation:${local.iam_region}:${local.iam_account_id}:stack/${local.sls_service_name}-${local.stage}/*"
 

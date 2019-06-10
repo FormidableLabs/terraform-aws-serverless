@@ -62,3 +62,14 @@ resource "aws_iam_group_policy_attachment" "developer_cd_lambdas" {
   group      = "${aws_iam_group.developer.name}"
   policy_arn = "${aws_iam_policy.cd_lambdas.arn}"
 }
+
+resource "aws_iam_role" "lambda" {
+  count              = "${local.opt_create_lambda_role ? 1 : 0}"
+  name               = "${local.tf_lambda_role_name}"
+  assume_role_policy = "${data.aws_iam_policy_document.lambda_assume.json}"
+}
+
+resource "aws_iam_role_policy_attachment" "lambda" {
+  role       = "${aws_iam_role.lambda.name}"
+  policy_arn = "${aws_iam_policy.lambda.arn}"
+}

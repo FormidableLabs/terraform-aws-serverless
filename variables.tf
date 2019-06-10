@@ -51,6 +51,11 @@ variable "sls_service_name" {
   default     = ""
 }
 
+variable "sls_lambda_role_name" {
+  description = "The name of a custom Lambda execution role to use in Serverless. If not set, reuses the Serverless default role. Takes precedence over opt_create_lambda_role."
+  default     = ""
+}
+
 # Configurable names for roles. Default `admin|developer|ci`.
 variable "role_admin_name" {
   description = "Administrator role name"
@@ -72,23 +77,34 @@ variable "opt_many_lambdas" {
   default     = false
 }
 
+variable "opt_create_lambda_role" {
+  description = "Creates a default Lambda execution role instead of reusing the default Serverless role. Prevents errors when creating the Terraform stack before deploying Serverless."
+  default     = false
+}
+
 data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
 
+data "aws_iam_role" "custom_lambda_role" {
+  count = "${var.sls_lambda_role_name != "" ? 1 : 0}"
+  name  = "${var.sls_lambda_role_name}"
+}
+
 # AWS / Serverless framework configuration.
 locals {
-  iam_partition       = "${var.iam_partition}"
-  iam_account_id      = "${var.iam_account_id != "" ? var.iam_account_id : data.aws_caller_identity.current.account_id}"
-  region              = "${var.region != "" ? var.region : data.aws_region.current.name}"
-  iam_region          = "${var.iam_region}"
-  stage               = "${var.stage}"
-  service_name        = "${var.service_name}"
-  tf_service_name     = "${var.tf_service_name != "" ? var.tf_service_name : "tf-${var.service_name}"}"
-  sls_service_name    = "${var.sls_service_name != "" ? var.sls_service_name : "sls-${var.service_name}"}"
-  role_admin_name     = "${var.role_admin_name}"
-  role_developer_name = "${var.role_developer_name}"
-  role_ci_name        = "${var.role_ci_name}"
-  opt_many_lambdas    = "${var.opt_many_lambdas}"
+  iam_partition          = "${var.iam_partition}"
+  iam_account_id         = "${var.iam_account_id != "" ? var.iam_account_id : data.aws_caller_identity.current.account_id}"
+  region                 = "${var.region != "" ? var.region : data.aws_region.current.name}"
+  iam_region             = "${var.iam_region}"
+  stage                  = "${var.stage}"
+  service_name           = "${var.service_name}"
+  tf_service_name        = "${var.tf_service_name != "" ? var.tf_service_name : "tf-${var.service_name}"}"
+  sls_service_name       = "${var.sls_service_name != "" ? var.sls_service_name : "sls-${var.service_name}"}"
+  role_admin_name        = "${var.role_admin_name}"
+  role_developer_name    = "${var.role_developer_name}"
+  role_ci_name           = "${var.role_ci_name}"
+  opt_many_lambdas       = "${var.opt_many_lambdas}"
+  opt_create_lambda_role = "${var.opt_create_lambda_role}"
 
   tags = "${map(
     "Service", "${var.service_name}",
@@ -126,7 +142,7 @@ locals {
   #
   # _Note_: We need **actual name** to match real role, which means
   # `local.region` and not `local.iam_region`.
-  sls_lambda_role_name = "${local.sls_service_name}-${local.stage}-${local.region}-lambdaRole"
+  sls_lambda_default_role_name = "${local.sls_service_name}-${local.stage}-${local.region}-lambdaRole"
 
   # The built-in serverless Lambda execution role ARN.
   #
@@ -134,7 +150,21 @@ locals {
   # in the actual name of the role.
   #
   # - No region allowed in ARN. See https://iam.cloudonaut.io/reference/iam.html
-  sls_lambda_role_arn = "arn:${local.iam_partition}:iam::${local.iam_account_id}:role/${local.sls_service_name}-${local.stage}-${local.iam_region}-lambdaRole"
+  sls_lambda_default_role_arn = "arn:${local.iam_partition}:iam::${local.iam_account_id}:role/${local.sls_service_name}-${local.stage}-${local.iam_region}-lambdaRole"
+
+  sls_lambda_custom_role_arn = "${element(concat(data.aws_iam_role.custom_lambda_role.*.arn, list("")), 0)}"
+
+  sls_lambda_built_role_name = "${element(concat(aws_iam_role.lambda.*.name, list("")), 0)}"
+  sls_lambda_built_role_arn  = "${element(concat(aws_iam_role.lambda.*.arn, list("")), 0)}"
+
+  # The calculated Lambda role name. Precedence is custom name > created by module > default Serverless.
+  sls_lambda_role_name = "${local.sls_lambda_role_name != "" ? local.sls_lambda_role_name : local.opt_create_lambda_role != "" ? local.sls_lambda_built_role_name : local.sls_lambda_default_role_name}"
+
+  # The calculated Lambda role ARN. Precedence is custom name > created by module > default Serverless.
+  sls_lambda_role_arn = "${local.sls_lambda_custom_role_arn != "" ? local.sls_lambda_custom_role_arn : local.opt_create_lambda_role != "" ? local.sls_lambda_built_role_arn : local.sls_lambda_default_role_arn}"
+
+  # 
+  tf_lambda_role_name = "${local.tf_service_name}-${local.stage}-lambda-execution-role"
 
   # The serverless created APIGW.
   #

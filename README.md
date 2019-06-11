@@ -145,7 +145,6 @@ module "serverless" {
   service_name = "sparklepants"
   stage        = "${var.stage}"
 
-
   # (Default values)
   # iam_region          = `*`
   # iam_partition       = `*`

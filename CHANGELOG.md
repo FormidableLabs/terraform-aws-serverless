@@ -1,6 +1,10 @@
 Changes
 =======
 
+## 0.4.0
+
+* Adds a `lambda_role_name` option to allow use of a custom Lambda execution role in lieu of the default Serverless-generated role.
+
 ## 0.3.0
 
 * Submodule: Add `vpc` submodule support for `serverless` apps.

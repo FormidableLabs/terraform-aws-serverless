@@ -145,6 +145,8 @@ module "serverless" {
   service_name = "sparklepants"
   stage        = "${var.stage}"
 
+  # lambda_role_name    = "your-custom-role"
+
   # (Default values)
   # iam_region          = `*`
   # iam_partition       = `*`
@@ -181,6 +183,7 @@ Let's unpack the parameters a bit more (located in [variables.tf](variables.tf))
 - `service_name`: A service name is something that defines the unique application that will match up with the serverless application. E.g., something boring like `simple-reference` or `graphql-server` or exciting like `unicorn` or `sparklepants`.
 - `stage`: The current stage that will match up with the `serverless` framework deployment. These are arbitrary, but can be something like `development`/`staging`/`production`.
 - `region`: The deployed region of the service. Defaults to the current caller's AWS region. E.g., `us-east-1`.
+- `lambda_role_name`: # A custom Lambda execution role to use instead of the Serverless default. Ensure that the custom role includes at least the same level of permissions as the default. If using the `xray` or `vpc` modules, make sure to pass this same option and role to them.
 - `iam_region`: The [AWS region][] to limit IAM privileges to. Defaults to `*`. The difference with `region` is that `region` has to be one specific region like `us-east-1` to match up with Serverless framework resources, whereas `iam_region` can be a single region or `*` wildcard as it's just an IAM restriction.
 - `iam_partition`: The [AWS partition][] to limit IAM privileges to. Defaults to `*`.
 - `iam_account_id`: The [AWS account ID][] to limit IAM privileges to. Defaults to the current caller's account ID.

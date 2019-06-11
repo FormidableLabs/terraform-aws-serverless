@@ -52,7 +52,7 @@ variable "sls_service_name" {
 }
 
 variable "lambda_role_name" {
-  description = "Custom Lambda role to override the default Serverless one."
+  description = "Custom Lambda role to override the default Serverless one. The custom role should provide at least the same level of access as the default."
   default     = ""
 }
 

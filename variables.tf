@@ -51,6 +51,11 @@ variable "sls_service_name" {
   default     = ""
 }
 
+variable "lambda_role_name" {
+  description = "Custom Lambda role to override the default Serverless one. The custom role should provide at least the same level of access as the default."
+  default     = ""
+}
+
 # Configurable names for roles. Default `admin|developer|ci`.
 variable "role_admin_name" {
   description = "Administrator role name"
@@ -85,6 +90,7 @@ locals {
   service_name        = "${var.service_name}"
   tf_service_name     = "${var.tf_service_name != "" ? var.tf_service_name : "tf-${var.service_name}"}"
   sls_service_name    = "${var.sls_service_name != "" ? var.sls_service_name : "sls-${var.service_name}"}"
+  lambda_role_name    = "${var.lambda_role_name}"
   role_admin_name     = "${var.role_admin_name}"
   role_developer_name = "${var.role_developer_name}"
   role_ci_name        = "${var.role_ci_name}"
@@ -126,7 +132,9 @@ locals {
   #
   # _Note_: We need **actual name** to match real role, which means
   # `local.region` and not `local.iam_region`.
-  sls_lambda_role_name = "${local.sls_service_name}-${local.stage}-${local.region}-lambdaRole"
+  sls_lambda_role_default_name = "${local.sls_service_name}-${local.stage}-${local.region}-lambdaRole"
+
+  sls_lambda_role_name = "${local.lambda_role_name != "" ? local.lambda_role_name : local.sls_lambda_role_default_name}"
 
   # The built-in serverless Lambda execution role ARN.
   #
@@ -134,7 +142,10 @@ locals {
   # in the actual name of the role.
   #
   # - No region allowed in ARN. See https://iam.cloudonaut.io/reference/iam.html
-  sls_lambda_role_arn = "arn:${local.iam_partition}:iam::${local.iam_account_id}:role/${local.sls_service_name}-${local.stage}-${local.iam_region}-lambdaRole"
+  sls_lambda_role_default_arn = "arn:${local.iam_partition}:iam::${local.iam_account_id}:role/${local.sls_service_name}-${local.stage}-${local.iam_region}-lambdaRole"
+
+  sls_lambda_role_custom_arn = "arn:${local.iam_partition}:iam::${local.iam_account_id}:role/${local.lambda_role_name}"
+  sls_lambda_role_arn        = "${local.lambda_role_name != "" ? local.sls_lambda_role_custom_arn : local.sls_lambda_role_default_arn}"
 
   # The serverless created APIGW.
   #

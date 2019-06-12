@@ -1,6 +1,10 @@
 Changes
 =======
 
+## 0.5.0
+
+* Add an `iam_stage` option to allow for stage wildcards in IAM permissions.
+
 ## 0.4.0
 
 * Adds a `lambda_role_name` option to allow use of a custom Lambda execution role in lieu of the default Serverless-generated role.

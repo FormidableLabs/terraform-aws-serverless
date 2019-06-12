@@ -148,7 +148,7 @@ locals {
   # in the actual name of the role.
   #
   # - No region allowed in ARN. See https://iam.cloudonaut.io/reference/iam.html
-  sls_lambda_role_default_arn = "arn:${local.iam_partition}:iam::${local.iam_account_id}:role/${local.sls_service_name}-${local.stage}-${local.iam_region}-lambdaRole"
+  sls_lambda_role_default_arn = "arn:${local.iam_partition}:iam::${local.iam_account_id}:role/${local.sls_service_name}-${local.iam_stage}-${local.iam_region}-lambdaRole"
 
   sls_lambda_role_custom_arn = "arn:${local.iam_partition}:iam::${local.iam_account_id}:role/${local.lambda_role_name}"
   sls_lambda_role_arn        = "${local.lambda_role_name != "" ? local.sls_lambda_role_custom_arn : local.sls_lambda_role_default_arn}"

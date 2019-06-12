@@ -33,6 +33,10 @@ variable "stage" {
   default     = "development"
 }
 
+variable "iam_stage" {
+  description = "The IAM stage restriction for permissions. Wildcarding stage is useful for dynamic environment creation."
+}
+
 variable "service_name" {
   description = "Name of service / application"
 }
@@ -87,6 +91,7 @@ locals {
   region              = "${var.region != "" ? var.region : data.aws_region.current.name}"
   iam_region          = "${var.iam_region}"
   stage               = "${var.stage}"
+  iam_stage           = "${var.iam_stage != "" ? var.iam_stage : var.stage}"
   service_name        = "${var.service_name}"
   tf_service_name     = "${var.tf_service_name != "" ? var.tf_service_name : "tf-${var.service_name}"}"
   sls_service_name    = "${var.sls_service_name != "" ? var.sls_service_name : "sls-${var.service_name}"}"
@@ -110,7 +115,7 @@ locals {
   tf_group_ci_name        = "${local.tf_service_name}-${local.stage}-${local.role_ci_name}"
 
   # Serverless CloudFormation stack ARN.
-  sls_cloudformation_arn = "arn:${local.iam_partition}:cloudformation:${local.iam_region}:${local.iam_account_id}:stack/${local.sls_service_name}-${local.stage}/*"
+  sls_cloudformation_arn = "arn:${local.iam_partition}:cloudformation:${local.iam_region}:${local.iam_account_id}:stack/${local.sls_service_name}-${local.iam_stage}/*"
 
   # Serverless target deployment bucket ARN.
   # - A long service name can endup with truncated bucket names like:
@@ -120,13 +125,13 @@ locals {
   sls_deploy_bucket_arn = "arn:${local.iam_partition}:s3:::${local.sls_service_name}-*-serverless*-*"
 
   # Serverless created log stream.
-  sls_log_stream_arn = "arn:${local.iam_partition}:logs:${local.iam_region}:${local.iam_account_id}:log-group:/aws/lambda/${local.sls_service_name}-${local.stage}-*:log-stream:"
+  sls_log_stream_arn = "arn:${local.iam_partition}:logs:${local.iam_region}:${local.iam_account_id}:log-group:/aws/lambda/${local.sls_service_name}-${local.iam_stage}-*:log-stream:"
 
   # Serverless created CloudWatch events.
-  sls_events_arn = "arn:${local.iam_partition}:events:${local.iam_region}:${local.iam_account_id}:rule/${local.sls_service_name}-${local.stage}"
+  sls_events_arn = "arn:${local.iam_partition}:events:${local.iam_region}:${local.iam_account_id}:rule/${local.sls_service_name}-${local.iam_stage}"
 
   # Serverless lambda function ARN.
-  sls_lambda_arn = "arn:${local.iam_partition}:lambda:${local.iam_region}:${local.iam_account_id}:function:${local.sls_service_name}-${local.stage}-*"
+  sls_lambda_arn = "arn:${local.iam_partition}:lambda:${local.iam_region}:${local.iam_account_id}:function:${local.sls_service_name}-${local.iam_stage}-*"
 
   # The built-in serverless Lambda execution role.
   #
@@ -134,6 +139,7 @@ locals {
   # `local.region` and not `local.iam_region`.
   sls_lambda_role_default_name = "${local.sls_service_name}-${local.stage}-${local.region}-lambdaRole"
 
+  # The name, custom or default, of the Lambda execution role to attach policies to.
   sls_lambda_role_name = "${local.lambda_role_name != "" ? local.lambda_role_name : local.sls_lambda_role_default_name}"
 
   # The built-in serverless Lambda execution role ARN.
@@ -142,7 +148,7 @@ locals {
   # in the actual name of the role.
   #
   # - No region allowed in ARN. See https://iam.cloudonaut.io/reference/iam.html
-  sls_lambda_role_default_arn = "arn:${local.iam_partition}:iam::${local.iam_account_id}:role/${local.sls_service_name}-${local.stage}-${local.iam_region}-lambdaRole"
+  sls_lambda_role_default_arn = "arn:${local.iam_partition}:iam::${local.iam_account_id}:role/${local.sls_service_name}-${local.iam_stage}-${local.iam_region}-lambdaRole"
 
   sls_lambda_role_custom_arn = "arn:${local.iam_partition}:iam::${local.iam_account_id}:role/${local.lambda_role_name}"
   sls_lambda_role_arn        = "${local.lambda_role_name != "" ? local.sls_lambda_role_custom_arn : local.sls_lambda_role_default_arn}"

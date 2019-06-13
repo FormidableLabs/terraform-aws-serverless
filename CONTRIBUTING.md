@@ -7,6 +7,14 @@ Thanks for contributing!
 
 We develop this project using `terraform` and `yarn` / Node.js for convenience. Make sure you have both installed.
 
+```sh
+# Get terraform 0.11 (example for Mac w/ brew).
+$ brew install terraform@0.11
+
+# Install local deps
+$ yarn install
+```
+
 Because of how Terraform works, we have to format / generate code that goes back into git source. So, make sure to periodically run:
 
 ```sh

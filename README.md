@@ -157,6 +157,7 @@ module "serverless" {
   # role_developer_name = `developer`
   # role_ci_name        = `ci`
   # opt_many_lambdas    = false
+  # modules             = []
 }
 ```
 

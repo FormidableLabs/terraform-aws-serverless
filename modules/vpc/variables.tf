@@ -82,6 +82,13 @@ variable "opt_many_lambdas" {
   default     = false
 }
 
+# Autoload: modules
+variable "modules" {
+  description = "Submodules to autoload (e.g. `xray`, `vpc`)"
+  type        = "list"
+  default     = []
+}
+
 data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
 
@@ -101,6 +108,7 @@ locals {
   role_developer_name = "${var.role_developer_name}"
   role_ci_name        = "${var.role_ci_name}"
   opt_many_lambdas    = "${var.opt_many_lambdas}"
+  modules             = "${var.modules}"
 
   tags = "${map(
     "Service", "${var.service_name}",

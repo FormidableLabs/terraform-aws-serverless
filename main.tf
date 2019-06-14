@@ -62,11 +62,3 @@ resource "aws_iam_group_policy_attachment" "developer_cd_lambdas" {
   group      = "${aws_iam_group.developer.name}"
   policy_arn = "${aws_iam_policy.cd_lambdas.arn}"
 }
-
-# Autoload: modules
-# TODO(autoload): REMOVE TEST
-resource "aws_s3_bucket" "todo-remove" {
-  count  = "${length(local.modules)}"
-  bucket = "TODO-fmd-tf-aws-sls-remove-me-${local.modules[count.index]}"
-  acl    = "private"
-}

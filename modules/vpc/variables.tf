@@ -108,7 +108,7 @@ locals {
   role_developer_name = "${var.role_developer_name}"
   role_ci_name        = "${var.role_ci_name}"
   opt_many_lambdas    = "${var.opt_many_lambdas}"
-  modules             = "${var.modules}"
+  modules             = "${distinct(var.modules)}"
 
   tags = "${map(
     "Service", "${var.service_name}",

@@ -11,6 +11,32 @@ locals = {
   _modules_vpc  = "${matchkeys(local.modules, local.modules, list("vpc"))}"
 }
 
+###############################################################################
+# Module(xray): Add X-ray support to lambda execution roles.
+###############################################################################
+# TODO HERE: `Error: module "serverless_xray": "count" is not a valid argument`
+# TODO: OPTION/IDEA: Have a dummy module and interpolate on `source`?
+module "serverless_xray" {
+  count  = "${length(local._modules_xray)}"
+  source = "./modules/xray"
+
+  # Proxy all variables
+  region              = "${var.region}"
+  service_name        = "${var.service_name}"
+  stage               = "${var.stage}"
+  modules             = "${var.modules}"
+  iam_region          = "${var.iam_region}"
+  iam_partition       = "${var.iam_partition}"
+  iam_account_id      = "${var.iam_account_id}"
+  iam_stage           = "${var.iam_stage}"
+  tf_service_name     = "${var.tf_service_name}"
+  sls_service_name    = "${var.sls_service_name}"
+  role_admin_name     = "${var.role_admin_name}"
+  role_developer_name = "${var.role_developer_name}"
+  role_ci_name        = "${var.role_ci_name}"
+  opt_many_lambdas    = "${var.opt_many_lambdas}"
+}
+
 # Autoload: modules
 # TODO(autoload): REMOVE TEST
 resource "aws_s3_bucket" "todo-remove-modules_xray" {

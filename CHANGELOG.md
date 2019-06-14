@@ -1,6 +1,10 @@
 Changes
 =======
 
+## 0.5.1
+
+* Set an empty default for `iam_stage` to avoid prompting the user.
+
 ## 0.5.0
 
 * Add an `iam_stage` option to allow for stage wildcards in IAM permissions.

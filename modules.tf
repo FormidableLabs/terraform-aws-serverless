@@ -3,6 +3,14 @@
 #
 # This file dynamically declares autoloaded modules specified via the
 # `modules` parameter in the root module of this project.
+#
+# ## Notes
+# - Ideally we'd like to only dynamically add modules with something like
+#   `count  = "${length(local._modules_xray)}"`. Unfortunately, `count` is not
+#   supported for modules: https://github.com/hashicorp/terraform/issues/953
+# - We also tried doing interpolation on `source` to switch between a "real"
+#   modules and an "empty" one. Also not supported:
+#   https://github.com/hashicorp/terraform/issues/1439
 ###############################################################################
 
 locals = {
@@ -17,8 +25,9 @@ locals = {
 # TODO HERE: `Error: module "serverless_xray": "count" is not a valid argument`
 # TODO: OPTION/IDEA: Have a dummy module and interpolate on `source`?
 module "serverless_xray" {
-  count  = "${length(local._modules_xray)}"
-  source = "./modules/xray"
+  # FAILS count  = "${length(local._modules_xray)}"
+
+  # FAILS source = "${length(local._modules_xray) == 0 ? "./modules/xray" : "./modules/empty"}"
 
   # Proxy all variables
   region              = "${var.region}"

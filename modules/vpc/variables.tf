@@ -35,6 +35,7 @@ variable "stage" {
 
 variable "iam_stage" {
   description = "The IAM stage restriction for permissions. Wildcarding stage is useful for dynamic environment creation."
+  default     = ""
 }
 
 variable "service_name" {

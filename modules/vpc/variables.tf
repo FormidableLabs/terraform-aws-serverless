@@ -154,6 +154,9 @@ locals {
   sls_lambda_role_custom_arn = "arn:${local.iam_partition}:iam::${local.iam_account_id}:role/${local.lambda_role_name}"
   sls_lambda_role_arn        = "${local.lambda_role_name != "" ? local.sls_lambda_role_custom_arn : local.sls_lambda_role_default_arn}"
 
+  # Serverless Lambda Layer ARN.
+  sls_layer_arn = "arn:${local.iam_partition}:lambda:${local.iam_region}:${local.iam_account_id}:layer:${local.sls_service_name}-${local.iam_stage}-*"
+
   # The serverless created APIGW.
   #
   # **NOTE**: This is difficult to lock down because we need the actual

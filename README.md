@@ -164,18 +164,33 @@ That pairs with a `serverless.yml` configuration:
 
 ```yml
 # This value needs to either be `sls-` + `service_name` module input *or*
-# be specified directly as the module input `sls_service_name`.
-service: sls-sparklepants
+# be specified directly as the module input `sls_service_name`, e.g.:
+# - `sls-{service_name}`
+# - `{sls_service_name}`
+service: sls-${self:custom.service}
+
+custom:
+  service: "sparklepants"
+  stage: ${opt:stage, "development"}
 
 provider:
   name: aws
   runtime: nodejs8.10
   region: "us-east-1"
-  stage: ${opt:stage, "development"}
+  stage: ${self:custom.stage}
 
 functions:
   server:
     # ...
+
+layers:
+  # Layers defined within a serverless project need be named with a prefix
+  # matching the service name in one of the following formats:
+  # - `sls-{service_name}-{stage}-{ANYTHING}`
+  # - `{sls_service_name}-{stage}-{ANYTHING}`
+  vendor:
+    path: layers/vendor
+    name: sls-${self:custom.service}-${self:custom.stage}-vendor
 ```
 
 Let's unpack the parameters a bit more (located in [variables.tf](variables.tf)):

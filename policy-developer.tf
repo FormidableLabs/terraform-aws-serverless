@@ -95,6 +95,21 @@ data "aws_iam_policy_document" "developer" {
     ]
   }
 
+  # Lambda Layers (`sls deploy`)
+  statement {
+    # Note:
+    # - `DeleteLayerVersion` is needed because the old layer is deleted on update.
+    actions = [
+      "lambda:GetLayerVersion",
+      "lambda:PublishLayerVersion",
+      "lambda:DeleteLayerVersion",
+    ]
+
+    resources = [
+      "${local.sls_layer_arn}",
+    ]
+  }
+
   # API Gateway (`sls deploy`)
   statement {
     actions = [

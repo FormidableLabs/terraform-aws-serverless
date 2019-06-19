@@ -1,6 +1,12 @@
 Changes
 =======
 
+## UNRELEASED
+
+* BUG: More permissions needed for tested version `serverless@1.45.1`.
+  [#49](https://github.com/FormidableLabs/terraform-aws-serverless/issues/49)
+    * Add `apigateway:PATCH` permission to `-developer`.
+
 ## 0.5.1
 
 * Set an empty default for `iam_stage` to avoid prompting the user.

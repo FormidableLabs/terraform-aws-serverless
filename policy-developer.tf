@@ -99,6 +99,7 @@ data "aws_iam_policy_document" "developer" {
   statement {
     actions = [
       "apigateway:GET",
+      "apigateway:PATCH",
       "apigateway:POST",
       "apigateway:PUT",
       "apigateway:DELETE",

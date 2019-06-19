@@ -1,7 +1,7 @@
 Changes
 =======
 
-## UNRELEASED
+## 0.5.2
 
 * BUG: More permissions needed for tested version `serverless@1.45.1`.
   [#49](https://github.com/FormidableLabs/terraform-aws-serverless/issues/49)

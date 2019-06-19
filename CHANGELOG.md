@@ -1,7 +1,7 @@
 Changes
 =======
 
-## UNRELEASED
+## 0.5.3
 
 * Add support for Lambda Layers creation via normal Serverless-controlled `layers`.
   [#48](https://github.com/FormidableLabs/terraform-aws-serverless/issues/48)

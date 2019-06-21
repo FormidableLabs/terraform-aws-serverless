@@ -1,7 +1,7 @@
-AWS Serverless - X-ray Module
+AWS Serverless - Canary Module
 =============================
 
-This module enables [AWS X-ray][] support for [serverless][] framework applications.
+This module enables canary deploy support for [serverless][] framework applications using [serverless-plugin-canary-deployments][].
 
 ## Contents
 
@@ -18,7 +18,8 @@ This module enables [AWS X-ray][] support for [serverless][] framework applicati
 
 ## Overview
 
-This module adds [IAM permissions][xray_iam] to the Lambda execution role created by the Serverless framework as part of its CloudFormation stack so that the role may send trace data to AWS.
+This module adds [IAM permissions][canary_iam] to the Lambda execution role created by the Serverless framework as part of its CloudFormation stack so that the role may create, rollback, and destroy
+canary deploys with CodeDeploy Lambda traffic shifting.
 
 ## Integration
 
@@ -27,9 +28,7 @@ This module adds [IAM permissions][xray_iam] to the Lambda execution role create
 Perhaps the easiest place to start is our [sample reference project][ref_project] that creates a Serverless framework service named `simple-reference` that integrates the core module and submodules of this project. The relevant files to review include:
 
 - Serverless framework
-    - [serverless.yml](https://github.com/FormidableLabs/aws-lambda-serverless-reference/blob/master/serverless.yml): Serverless framework configuration. The `xray` function is configured with X-ray tracing.
-- Example Node.js handlers/servers
-    - [src/server/xray.js](https://github.com/FormidableLabs/aws-lambda-serverless-reference/blob/master/src/server/xray.js): Example server additionally enabling [AWS X-Ray][] performance tracing additionally using the `serverless_xray` submodule.
+    - [serverless.yml](https://github.com/FormidableLabs/aws-lambda-serverless-reference/blob/master/serverless.yml): Serverless framework configuration. The `canary` function is configured to start a canary deploy on `sls deploy`: 10% new Lambda for five minutes, then 100% new Lambda after.
 
 ### Module integration
 
@@ -58,9 +57,9 @@ module "serverless" {
   stage        = "${var.stage}"
 }
 
-# Add optional X-ray support to lambda execution roles.
-module "serverless_xray" {
-  source = "FormidableLabs/serverless/aws//modules/xray"
+# Add serverless-plugin-canary-deployments to lambda execution roles.
+module "serverless_canary" {
+  source = "FormidableLabs/serverless/aws//modules/canary"
 
   # Same variables as for `serverless` module.
   region       = "us-east-1"
@@ -75,7 +74,7 @@ module "serverless_xray" {
   # sls_service_name    = `sls-SERVICE_NAME`
   # role_admin_name     = `admin`
   # role_developer_name = `developer`
-  # role_ci_name        = `ci`
+  # role_ci_name        =  ""
 }
 ```
 
@@ -92,27 +91,24 @@ provider:
   region: "us-east-1"
   stage: ${opt:stage, "development"}
 
+plugins:
+  # ...
+  - serverless-plugin-canary-deployments
+
 functions:
   server:
     # ...
-
-resources:
-  Resources:
-    # Enable X-ray tracing on the Lambda. The `serverless_xray` module gives
-    # correct IAM permissions to enable this resource on the Serverless-
-    # generated CloudFormation Stack.
-    ServerLambdaFunction: # Generated resource name for `server` function...
-      Properties:
-        TracingConfig:
-          Mode: Active
+    deploymentSettings:
+      type: Canary10Percent5Minutes
+      alias: Live
 ```
 
 The parameters (located in [variables.tf](variables.tf)) are exactly the same as for the [core IAM module][core_module].
 
 [serverless]: https://serverless.com/
+[serverless-plugin-canary-deployments]: https://github.com/davidgf/serverless-plugin-canary-deployments
 [Terraform]: https://www.terraform.io
-[AWS X-Ray]: https://aws.amazon.com/xray/
 
 [core_module]: ../../README.md
-[xray_iam]: https://docs.aws.amazon.com/IAM/latest/UserGuide/list_awsx-ray.html
+[canary_iam]: https://docs.aws.amazon.com/IAM/latest/UserGuide/list_awscodedeploy.html
 [ref_project]: https://github.com/FormidableLabs/aws-lambda-serverless-reference

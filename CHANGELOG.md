@@ -1,6 +1,11 @@
 Changes
 =======
 
+## UNRELEASED
+
+* Submodule: Add `canary` submodule support for `serverless` apps.
+* Add group IAM policy ARNs to outputs in all modules. This allows a user to create an IAM role that mirrors the policies attached to groups, which in turn allows for delegation to group users or other AWS accounts.
+
 ## 0.5.3
 
 * Add support for Lambda Layers creation via normal Serverless-controlled `layers`.

@@ -74,7 +74,7 @@ module "serverless_canary" {
   # sls_service_name    = `sls-SERVICE_NAME`
   # role_admin_name     = `admin`
   # role_developer_name = `developer`
-  # role_ci_name        =  ""
+  # role_ci_name        = `ci`
 }
 ```
 

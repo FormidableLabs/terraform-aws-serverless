@@ -1,6 +1,11 @@
 Changes
 =======
 
+## UNRELEASED
+
+* Submodule: Add `canary` submodule support for `serverless` apps.
+* Add group IAM policy ARNs to outputs in all modules.
+
 ## 0.5.3
 
 * Add support for Lambda Layers creation via normal Serverless-controlled `layers`.

@@ -66,7 +66,7 @@ data "aws_iam_policy_document" "admin" {
     ]
 
     resources = [
-      "${local.sls_lambda_role_arn}",
+      "${local.lambda_role_arn}",
     ]
   }
 

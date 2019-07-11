@@ -57,7 +57,7 @@ variable "sls_service_name" {
 }
 
 variable "lambda_role_name" {
-  description = "Custom Lambda role to override the default Serverless one. The custom role should provide at least the same level of access as the default."
+  description = "Name of a custom Lambda role to override the default Serverless one. The custom role should provide at least the same level of access as the default. If not specified, the role name defaults to `tf-SERVICE_NAME-STAGE-lambda-execution`."
   default     = ""
 }
 
@@ -82,12 +82,15 @@ variable "opt_many_lambdas" {
   default     = false
 }
 
+data "aws_partition" "current" {}
 data "aws_caller_identity" "current" {}
 data "aws_region" "current" {}
 
 # AWS / Serverless framework configuration.
 locals {
+  partition           = "${data.aws_partition.current.partition}"
   iam_partition       = "${var.iam_partition}"
+  account_id          = "${data.aws_caller_identity.current.account_id}"
   iam_account_id      = "${var.iam_account_id != "" ? var.iam_account_id : data.aws_caller_identity.current.account_id}"
   region              = "${var.region != "" ? var.region : data.aws_region.current.name}"
   iam_region          = "${var.iam_region}"
@@ -96,7 +99,6 @@ locals {
   service_name        = "${var.service_name}"
   tf_service_name     = "${var.tf_service_name != "" ? var.tf_service_name : "tf-${var.service_name}"}"
   sls_service_name    = "${var.sls_service_name != "" ? var.sls_service_name : "sls-${var.service_name}"}"
-  lambda_role_name    = "${var.lambda_role_name}"
   role_admin_name     = "${var.role_admin_name}"
   role_developer_name = "${var.role_developer_name}"
   role_ci_name        = "${var.role_ci_name}"
@@ -114,6 +116,11 @@ locals {
   tf_group_admin_name     = "${local.tf_service_name}-${local.stage}-${local.role_admin_name}"
   tf_group_developer_name = "${local.tf_service_name}-${local.stage}-${local.role_developer_name}"
   tf_group_ci_name        = "${local.tf_service_name}-${local.stage}-${local.role_ci_name}"
+
+  # Resolve the name and ARN for either the default or the custom role.
+  default_lambda_role_name = "tf-${var.service_name}-${var.stage}-lambda-execution"
+  lambda_role_name         = "${var.lambda_role_name != "" ? var.lambda_role_name : local.default_lambda_role_name}"
+  lambda_role_arn          = "arn:aws:${local.partition}::${local.account_id}:role/${local.lambda_role_name}"
 
   # Serverless CloudFormation stack ARN.
   sls_cloudformation_arn = "arn:${local.iam_partition}:cloudformation:${local.iam_region}:${local.iam_account_id}:stack/${local.sls_service_name}-${local.iam_stage}/*"
@@ -133,26 +140,6 @@ locals {
 
   # Serverless lambda function ARN.
   sls_lambda_arn = "arn:${local.iam_partition}:lambda:${local.iam_region}:${local.iam_account_id}:function:${local.sls_service_name}-${local.iam_stage}-*"
-
-  # The built-in serverless Lambda execution role.
-  #
-  # _Note_: We need **actual name** to match real role, which means
-  # `local.region` and not `local.iam_region`.
-  sls_lambda_role_default_name = "${local.sls_service_name}-${local.stage}-${local.region}-lambdaRole"
-
-  # The name, custom or default, of the Lambda execution role to attach policies to.
-  sls_lambda_role_name = "${local.lambda_role_name != "" ? local.lambda_role_name : local.sls_lambda_role_default_name}"
-
-  # The built-in serverless Lambda execution role ARN.
-  #
-  # Note that we use `iam_region` to potentially wildcard the IAM permission
-  # in the actual name of the role.
-  #
-  # - No region allowed in ARN. See https://iam.cloudonaut.io/reference/iam.html
-  sls_lambda_role_default_arn = "arn:${local.iam_partition}:iam::${local.iam_account_id}:role/${local.sls_service_name}-${local.iam_stage}-${local.iam_region}-lambdaRole"
-
-  sls_lambda_role_custom_arn = "arn:${local.iam_partition}:iam::${local.iam_account_id}:role/${local.lambda_role_name}"
-  sls_lambda_role_arn        = "${local.lambda_role_name != "" ? local.sls_lambda_role_custom_arn : local.sls_lambda_role_default_arn}"
 
   # Serverless Lambda Layer ARN.
   sls_layer_arn = "arn:${local.iam_partition}:lambda:${local.iam_region}:${local.iam_account_id}:layer:${local.sls_service_name}-${local.iam_stage}-*"

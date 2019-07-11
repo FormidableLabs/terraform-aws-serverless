@@ -1,4 +1,6 @@
 locals {
+  # If the user provides a custom lambda role, don't create the default role,
+  # but still attach the policies that we'd attach to the default role.
   count = "${var.lambda_role_name != "" ? 0 : 1}"
 }
 
@@ -51,6 +53,7 @@ resource "aws_iam_role_policy_attachment" "lambda" {
 #
 # See: https://theburningmonk.com/2019/03/making-terraform-and-serverless-framework-work-together/
 resource "aws_cloudformation_stack" "outputs_lambda_role" {
+  # Only create the stack if we create the default role
   count = "${local.count}"
   name  = "tf-${var.service_name}-${var.stage}-outputs-lambda-role"
 

@@ -1,6 +1,12 @@
 Changes
 =======
 
+## 0.7.0
+
+* Generates a new IAM role by default to use instead of the default Serverless-generated role. This solves an issue where `terraform-aws-serverless`
+failed to attach policies to the Serverless-generated role when the user hasn't
+run `sls deploy` before. [#54](https://github.com/FormidableLabs/terraform-aws-serverless/pull/54)
+
 ## 0.6.0
 
 * Submodule: Add `canary` submodule support for `serverless` apps.

@@ -57,7 +57,7 @@ variable "sls_service_name" {
 }
 
 variable "lambda_role_name" {
-  description = "Name of a custom Lambda role to override the default Serverless one. The custom role should provide at least the same level of access as the default."
+  description = "Name of a custom Lambda role to override the default Serverless one. The custom role should provide at least the same level of access as the default. If not specified, the role name defaults to `tf-SERVICE_NAME-STAGE-lambda-execution`."
   default     = ""
 }
 

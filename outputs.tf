@@ -27,3 +27,11 @@ output "iam_policy_ci_arn" {
 output "iam_policy_cd_lambdas_arn" {
   value = "${aws_iam_policy.cd_lambdas.arn}"
 }
+
+output "lambda_role_arn" {
+  value = "${aws_iam_role.lambda.*.arn[0]}"
+}
+
+output "lambda_role_name" {
+  value = "${aws_iam_role.lambda.*.name[0]}"
+}

@@ -63,13 +63,13 @@ Resources:
     Type: AWS::SSM::Parameter
     Properties:
       Name: "tf-${var.service_name}-${var.stage}-LambdaExecutionRoleArn"
-      Value: "${aws_iam_role.lambda.arn}"
+      Value: "${aws_iam_role.lambda.*.arn[count.index]}"
       Type: String
 
 Outputs:
   LambdaExecutionRoleArn:
     Description: "The ARN of the lambda execution role for Serverless to apply"
-    Value: "${aws_iam_role.lambda.arn}"
+    Value: "${aws_iam_role.lambda.*.arn[count.index]}"
     Export:
       Name: "tf-${var.service_name}-${var.stage}-LambdaExecutionRoleArn"
 

@@ -1,6 +1,10 @@
 Changes
 =======
 
+## 0.8.0
+
+* Adds an option to disable group and group attachment creation. [#56](https://github.com/FormidableLabs/terraform-aws-serverless/pull/56)
+
 ## 0.7.0
 
 * Generates a new IAM role by default to use instead of the default Serverless-generated role. This solves an issue where `terraform-aws-serverless`

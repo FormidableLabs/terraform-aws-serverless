@@ -126,7 +126,6 @@ locals {
   # Resolve the name and ARN for either the default or the custom role.
   default_lambda_role_name = "tf-${var.service_name}-${var.stage}-lambda-execution"
   lambda_role_name         = "${var.lambda_role_name != "" ? var.lambda_role_name : local.default_lambda_role_name}"
-  lambda_role_arn          = "arn:${local.partition}:iam::${local.account_id}:role/${local.lambda_role_name}"
   lambda_role_iam_arn      = "arn:${local.iam_partition}:iam::${local.iam_account_id}:role/${local.lambda_role_name}"
 
   # Serverless CloudFormation stack ARN.

@@ -43,7 +43,7 @@ data "aws_iam_policy_document" "cd_lambdas" {
     ]
 
     resources = [
-      "${local.lambda_role_arn}",
+      "${local.lambda_role_iam_arn}",
     ]
   }
 

@@ -65,7 +65,7 @@ data "aws_iam_policy_document" "developer" {
     ]
 
     resources = [
-      "${local.lambda_role_arn}",
+      "${local.lambda_role_iam_arn}",
     ]
   }
 

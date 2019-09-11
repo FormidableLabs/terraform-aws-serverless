@@ -1,6 +1,10 @@
 Changes
 =======
 
+## 0.8.1
+
+* Fixes an incorrect IAM ARN for lambda execution roles. [#57](https://github.com/FormidableLabs/terraform-aws-serverless/pull/57)
+
 ## 0.8.0
 
 * Adds an option to disable group and group attachment creation. [#56](https://github.com/FormidableLabs/terraform-aws-serverless/pull/56)

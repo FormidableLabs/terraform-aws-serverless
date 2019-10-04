@@ -17,10 +17,25 @@ locals {
   # 
   # https://github.com/serverless/serverless/blob/0965a6baa043d17669015f3ee9ce4b125f668f22/lib/plugins/aws/lib/naming.js#L31
   # https://github.com/davidgf/serverless-plugin-canary-deployments/blob/9afaefa996c1e9233f8d7f64529f6c69754644a0/serverless-plugin-canary-deployments.js#L20
-  codedeploy_application_name = "sls-${local.service_name}-${local.iam_stage}-Sls${replace(local.service_name, "/[^a-zA-Z0-9]+/", "")}${local.iam_stage}DeploymentApplication"
+  codedeploy_application_name = "sls-${local.service_name}-${local.iam_stage}-Sls${replace(local.service_name, "/[^a-zA-Z0-9]+/", "")}${replace(local.iam_stage, "/[^a-zA-Z0-9*]+/", "")}DeploymentApplication"
 }
 
 data "aws_iam_policy_document" "developer" {
+  statement {
+    actions = [
+      "iam:GetRole",
+      "iam:PassRole",
+      "iam:CreateRole",
+      "iam:DeleteRole",
+      "iam:AttachRolePolicy",
+      "iam:DetachRolePolicy",
+    ]
+
+    resources = [
+      "arn:${local.partition}:iam::${local.account_id}:role/sls-${var.service_name}-${var.iam_stage}-CodeDeployServiceRole-*"
+    ]
+  }
+
   statement {
     actions = [
       "codedeploy:CreateApplication",

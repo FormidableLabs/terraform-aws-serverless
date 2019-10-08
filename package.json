@@ -1,6 +1,6 @@
 {
   "name": "terraform-aws-serverless",
-  "version": "0.8.2",
+  "version": "0.8.3",
   "description": "Infrastructure support for Serverless framework apps, done the right way",
   "main": "index.js",
   "repository": "git@github.com:FormidableLabs/terraform-aws-serverless.git",

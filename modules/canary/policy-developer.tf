@@ -76,6 +76,6 @@ data "aws_iam_policy_document" "developer" {
   statement {
     actions = ["lambda:DeleteAlias"]
 
-    resources = [local.sls_lambda_arn]
+    resources = ["${local.sls_lambda_arn}"]
   }
 }

@@ -28,7 +28,7 @@ data "aws_iam_policy_document" "developer" {
     ]
 
     resources = [
-      "arn:${local.partition}:iam::${local.account_id}:role/sls-${var.service_name}-${var.iam_stage}-CodeDeployServiceRole-*"
+      "arn:${local.partition}:iam::${local.account_id}:role/sls-${var.service_name}-${var.iam_stage}-CodeDeployServiceRole-*",
     ]
   }
 

@@ -3,6 +3,10 @@ Changes
 
 ## 0.8.2
 
+* Fixes IAM permissions for the canary plugin. [#59](https://github.com/FormidableLabs/terraform-aws-serverless/pull/59)
+
+## 0.8.2
+
 * Fixes Terraform 0.12 support by using explicit `count.index` in group attachments. [#57](https://github.com/FormidableLabs/terraform-aws-serverless/pull/58)
 
 ## 0.8.1

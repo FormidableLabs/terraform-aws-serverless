@@ -1,6 +1,10 @@
 Changes
 =======
 
+## 0.8.4
+
+* Very minor var -> local fixes. [#60](https://github.com/FormidableLabs/terraform-aws-serverless/pull/60)
+
 ## 0.8.3
 
 * Fixes IAM permissions for the canary plugin. [#59](https://github.com/FormidableLabs/terraform-aws-serverless/pull/59)

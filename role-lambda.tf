@@ -1,12 +1,13 @@
 locals {
   # If the user provides a custom lambda role, don't create the default role,
   # but still attach the policies that we'd attach to the default role.
+  # This means we should check `var.lambda_role_name` **not** `local.`.
   count = "${var.lambda_role_name != "" ? 0 : 1}"
 }
 
 resource "aws_iam_role" "lambda" {
   count              = "${local.count}"
-  name               = "tf-${var.service_name}-${var.stage}-lambda-execution"
+  name               = "tf-${local.service_name}-${local.stage}-lambda-execution"
   assume_role_policy = "${data.aws_iam_policy_document.lambda_assume.json}"
 }
 
@@ -22,7 +23,7 @@ data "aws_iam_policy_document" "lambda_assume" {
 }
 
 resource "aws_iam_policy" "lambda" {
-  name   = "tf-${var.service_name}-${var.stage}-lambda-execution"
+  name   = "tf-${local.service_name}-${local.stage}-lambda-execution"
   policy = "${data.aws_iam_policy_document.lambda.json}"
 }
 
@@ -55,14 +56,14 @@ resource "aws_iam_role_policy_attachment" "lambda" {
 resource "aws_cloudformation_stack" "outputs_lambda_role" {
   # Only create the stack if we create the default role
   count = "${local.count}"
-  name  = "tf-${var.service_name}-${var.stage}-outputs-lambda-role"
+  name  = "tf-${local.service_name}-${local.stage}-outputs-lambda-role"
 
   template_body = <<STACK
 Resources:
   LambdaExecutionRoleArn:
     Type: AWS::SSM::Parameter
     Properties:
-      Name: "tf-${var.service_name}-${var.stage}-LambdaExecutionRoleArn"
+      Name: "tf-${local.service_name}-${local.stage}-LambdaExecutionRoleArn"
       Value: "${aws_iam_role.lambda.*.arn[count.index]}"
       Type: String
 
@@ -71,7 +72,7 @@ Outputs:
     Description: "The ARN of the lambda execution role for Serverless to apply"
     Value: "${aws_iam_role.lambda.*.arn[count.index]}"
     Export:
-      Name: "tf-${var.service_name}-${var.stage}-LambdaExecutionRoleArn"
+      Name: "tf-${local.service_name}-${local.stage}-LambdaExecutionRoleArn"
 
 STACK
 

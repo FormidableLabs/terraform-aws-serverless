@@ -72,6 +72,7 @@ The IAM permissions are locked down to service + environment + role-specific ARN
 **Not locked down**: These ARNs could be tighter, but presently are not.
 
 * `sls_apigw_arn`: Serverless API Gateway. The issue is that the ID of the resource is dynamically created during Serverless initial provisioning, so this module can't know it ahead of time. We have [a filed issue](https://github.com/FormidableLabs/terraform-aws-serverless/issues/8) to track and research potential tightening solutions.
+* `sls_apigw_tags_arn`: Tags for the Serverless API Gateway. Exact same issue as for `sls_apigw_arn`.
 
 **IAM Wildcards**: Unfortunately, AWS IAM only allows wildcards (`"*"`) on certain resources, so we cannot actually lock down more. Accordingly, we limit the permissions to _only_ what is needed with a bias towards sticking such permissions in the `admin` IAM group. Here are our current wildcards:
 
@@ -83,6 +84,9 @@ _Core IAM module_
     - `lambda:GetEventSourceMapping`
     - `lambda:ListEventSourceMappings`
     - `lambda:ListFunctions`
+    - `lambda:ListTags`
+    - `lambda:TagResource`
+    - `lambda:UntagResource`
     - `cloudwatch:GetMetricStatistics`
 * `developer|ci`:
     - `cloudformation:ValidateTemplate`
@@ -177,7 +181,7 @@ custom:
 provider:
   name: aws
   # Use the role provided by `terraform-aws-serverless.`
-  # 
+  #
   # **NOTE**: terraform-aws-serverless uses its own Lambda execution role
   # in favor of the Serverless default. It has the same permissions, but
   # allows you to attach IAM policies to it before running `sls deploy`.
@@ -228,7 +232,7 @@ Most likely, an AWS superuser will be needed to run the Terraform application fo
 
 Once the core module is applied, three IAM groups will be created in the form of `${tf_service_name}-${stage}-(admin|developer|ci)`. This typically looks something like:
 
-- `tf-${service_name}-${stage}-admin`: Can create/delete/update the Severless app.
+- `tf-${service_name}-${stage}-admin`: Can create/delete/update the Severless app and global resources like tags.
 - `tf-${service_name}-${stage}-developer`: Can deploy the Severless app.
 - `tf-${service_name}-${stage}-ci`: Can deploy the Severless app.
 

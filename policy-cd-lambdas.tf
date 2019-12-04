@@ -14,10 +14,14 @@ data "aws_iam_policy_document" "cd_lambdas" {
       "lambda:GetEventSourceMapping",
       "lambda:ListEventSourceMappings",
       "lambda:ListFunctions",
+      "lambda:ListTags",
+      "lambda:TagResource",
+      "lambda:UntagResource",
     ]
 
     # Necessary wildcards
-    # https://iam.cloudonaut.io/reference/lambda
+    # https://iam.cloudonaut.io/reference/lambda.html
+    # https://docs.aws.amazon.com/lambda/latest/dg/lambda-api-permissions-ref.html
     resources = [
       "*",
     ]

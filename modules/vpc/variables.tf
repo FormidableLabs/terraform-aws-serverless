@@ -168,6 +168,14 @@ locals {
   #   to fail for permissions.
   sls_apigw_arn = "arn:${local.iam_partition}:apigateway:${local.iam_region}::/restapis*"
 
+  # Same serverless created APIGW, but tags.
+  #
+  # **NOTE**: Same locking down issues with `sls_apigw_arn`, so this is far
+  # broader than we'd like.
+  #
+  # Example: `arn:aws:apigateway:us-east-1::/tags/arn%3Aaws%3Aapigateway%3Aus-east-1%3A%3A%2Frestapis%2Fvgrecx13z6%2Fstages%2Fsandbox`
+  sls_apigw_tags_arn = "arn:${local.iam_partition}:apigateway:${local.iam_region}::/tags*"
+
   # All log streams.
   # Needed for `logs:DescribeLogGroups`
   sls_log_stream_all_arn = "arn:${local.iam_partition}:logs:${local.iam_region}:${local.iam_account_id}:log-group::log-stream:"

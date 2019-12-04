@@ -9,6 +9,7 @@ resource "aws_iam_role" "lambda" {
   count              = "${local.count}"
   name               = "tf-${local.service_name}-${local.stage}-lambda-execution"
   assume_role_policy = "${data.aws_iam_policy_document.lambda_assume.json}"
+  tags               = "${local.tags}"
 }
 
 data "aws_iam_policy_document" "lambda_assume" {

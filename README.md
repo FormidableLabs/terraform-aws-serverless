@@ -84,6 +84,9 @@ _Core IAM module_
     - `lambda:GetEventSourceMapping`
     - `lambda:ListEventSourceMappings`
     - `lambda:ListFunctions`
+    - `lambda:ListTags`
+    - `lambda:TagResource`
+    - `lambda:UntagResource`
     - `cloudwatch:GetMetricStatistics`
 * `developer|ci`:
     - `cloudformation:ValidateTemplate`
@@ -229,7 +232,7 @@ Most likely, an AWS superuser will be needed to run the Terraform application fo
 
 Once the core module is applied, three IAM groups will be created in the form of `${tf_service_name}-${stage}-(admin|developer|ci)`. This typically looks something like:
 
-- `tf-${service_name}-${stage}-admin`: Can create/delete/update the Severless app.
+- `tf-${service_name}-${stage}-admin`: Can create/delete/update the Severless app and global resources like tags.
 - `tf-${service_name}-${stage}-developer`: Can deploy the Severless app.
 - `tf-${service_name}-${stage}-ci`: Can deploy the Severless app.
 

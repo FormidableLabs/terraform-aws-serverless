@@ -3,7 +3,7 @@ Changes
 
 ## UNRELEASED
 
-* Add support for tagged resources in Serverless. [#aws-lambda-serverless-reference/60](https://github.com/FormidableLabs/aws-lambda-serverless-reference/issues/41)
+* Add support for tagged resources in Serverless. [FormidableLabs/aws-lambda-serverless-reference#41](https://github.com/FormidableLabs/aws-lambda-serverless-reference/issues/41)
 
 ## 0.8.4
 

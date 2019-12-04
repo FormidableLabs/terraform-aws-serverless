@@ -1,6 +1,10 @@
 Changes
 =======
 
+## UNRELEASED
+
+* Add support for tagged resources in Serverless. [#aws-lambda-serverless-reference/60](https://github.com/FormidableLabs/aws-lambda-serverless-reference/issues/41)
+
 ## 0.8.4
 
 * Very minor var -> local fixes. [#60](https://github.com/FormidableLabs/terraform-aws-serverless/pull/60)

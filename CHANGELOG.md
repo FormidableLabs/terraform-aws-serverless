@@ -1,7 +1,7 @@
 Changes
 =======
 
-## UNRELEASED
+## 0.8.6
 
 * Add `s3:PutBucketPolicy` to `-admin` IAM group to match new Serverless CloudFormation requirements.
 

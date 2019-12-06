@@ -5,13 +5,18 @@ Thanks for contributing!
 
 ## Development
 
-We develop this project using `terraform` and `yarn` / Node.js for convenience. Make sure you have both installed.
+We develop this project using `terraform` and `yarn` / Node.js for convenience. Make sure you have both installed. For `tfenv`, here's some tips:
 
 ```sh
-# Get terraform 0.11 (example for Mac w/ brew).
-$ brew install terraform@0.11
+# Get tfenv
+# **Note**:  `tfenv` conflicts with Homebrew `terraform`, which must be uninstalled first
+$ brew install tfenv
+$ tfenv install
+```
 
-# Install local deps
+Then install like normal:
+
+```sh
 $ yarn install
 ```
 

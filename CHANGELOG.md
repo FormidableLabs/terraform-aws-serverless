@@ -1,6 +1,11 @@
 Changes
 =======
 
+
+## UNRELEASED
+
+* Add `iam:DeleteRolePolicy` to `cd-lambdas` IAM policy for folks transitioning from old SLS roles (named the same).
+
 ## 0.8.6
 
 * Add `s3:PutBucketPolicy` to `-admin` IAM group to match new Serverless CloudFormation requirements.

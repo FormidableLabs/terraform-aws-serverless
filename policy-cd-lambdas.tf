@@ -44,6 +44,7 @@ data "aws_iam_policy_document" "cd_lambdas" {
   statement {
     actions = [
       "iam:PutRolePolicy",
+      "iam:DeleteRolePolicy",
     ]
 
     resources = [

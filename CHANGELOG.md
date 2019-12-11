@@ -2,7 +2,7 @@ Changes
 =======
 
 
-## UNRELEASED
+## 0.8.7
 
 * Add `iam:DeleteRolePolicy` to `cd-lambdas` IAM policy for folks transitioning from old SLS roles (named the same).
 

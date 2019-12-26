@@ -105,6 +105,7 @@ _VPC submodule_
     - `ec2:DescribeSecurityGroups`
     - `ec2:DescribeVpcs`
     - `ec2:DescribeSubnets`
+    - `ec2:DescribeNetworkInterfaces`
 * Lambda execution role:
     - `ec2:CreateNetworkInterface`
     - `ec2:DescribeNetworkInterfaces`

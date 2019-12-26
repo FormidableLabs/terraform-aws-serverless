@@ -44,6 +44,7 @@ data "aws_iam_policy_document" "admin" {
       "s3:CreateBucket",
       "s3:DeleteBucket",
       "s3:PutBucketPolicy",
+      "s3:DeleteBucketPolicy",
       "s3:GetEncryptionConfiguration",
       "s3:PutEncryptionConfiguration",
     ]

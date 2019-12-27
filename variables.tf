@@ -87,33 +87,38 @@ variable "opt_disable_groups" {
   default     = false
 }
 
-data "aws_partition" "current" {}
-data "aws_caller_identity" "current" {}
-data "aws_region" "current" {}
+data "aws_partition" "current" {
+}
+
+data "aws_caller_identity" "current" {
+}
+
+data "aws_region" "current" {
+}
 
 # AWS / Serverless framework configuration.
 locals {
-  partition           = "${data.aws_partition.current.partition}"
-  iam_partition       = "${var.iam_partition}"
-  account_id          = "${data.aws_caller_identity.current.account_id}"
-  iam_account_id      = "${var.iam_account_id != "" ? var.iam_account_id : data.aws_caller_identity.current.account_id}"
-  region              = "${var.region != "" ? var.region : data.aws_region.current.name}"
-  iam_region          = "${var.iam_region}"
-  stage               = "${var.stage}"
-  iam_stage           = "${var.iam_stage != "" ? var.iam_stage : var.stage}"
-  service_name        = "${var.service_name}"
-  tf_service_name     = "${var.tf_service_name != "" ? var.tf_service_name : "tf-${var.service_name}"}"
-  sls_service_name    = "${var.sls_service_name != "" ? var.sls_service_name : "sls-${var.service_name}"}"
-  role_admin_name     = "${var.role_admin_name}"
-  role_developer_name = "${var.role_developer_name}"
-  role_ci_name        = "${var.role_ci_name}"
-  opt_many_lambdas    = "${var.opt_many_lambdas}"
-  opt_disable_groups  = "${var.opt_disable_groups}"
+  partition           = data.aws_partition.current.partition
+  iam_partition       = var.iam_partition
+  account_id          = data.aws_caller_identity.current.account_id
+  iam_account_id      = var.iam_account_id != "" ? var.iam_account_id : data.aws_caller_identity.current.account_id
+  region              = var.region != "" ? var.region : data.aws_region.current.name
+  iam_region          = var.iam_region
+  stage               = var.stage
+  iam_stage           = var.iam_stage != "" ? var.iam_stage : var.stage
+  service_name        = var.service_name
+  tf_service_name     = var.tf_service_name != "" ? var.tf_service_name : "tf-${var.service_name}"
+  sls_service_name    = var.sls_service_name != "" ? var.sls_service_name : "sls-${var.service_name}"
+  role_admin_name     = var.role_admin_name
+  role_developer_name = var.role_developer_name
+  role_ci_name        = var.role_ci_name
+  opt_many_lambdas    = var.opt_many_lambdas
+  opt_disable_groups  = var.opt_disable_groups
 
-  tags = "${map(
-    "Service", "${var.service_name}",
-    "Stage", "${var.stage}",
-  )}"
+  tags = {
+    "Service" = var.service_name
+    "Stage"   = var.stage
+  }
 }
 
 # Capture repeated/complicated AWS IAM resources to a single location.
@@ -125,7 +130,7 @@ locals {
 
   # Resolve the name and ARN for either the default or the custom role.
   default_lambda_role_name = "tf-${var.service_name}-${var.stage}-lambda-execution"
-  lambda_role_name         = "${var.lambda_role_name != "" ? var.lambda_role_name : local.default_lambda_role_name}"
+  lambda_role_name         = var.lambda_role_name != "" ? var.lambda_role_name : local.default_lambda_role_name
   lambda_role_iam_arn      = "arn:${local.iam_partition}:iam::${local.iam_account_id}:role/${local.lambda_role_name}"
 
   # Serverless CloudFormation stack ARN.
@@ -180,3 +185,4 @@ locals {
   # Needed for `logs:DescribeLogGroups`
   sls_log_stream_all_arn = "arn:${local.iam_partition}:logs:${local.iam_region}:${local.iam_account_id}:log-group::log-stream:"
 }
+

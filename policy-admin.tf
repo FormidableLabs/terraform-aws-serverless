@@ -6,9 +6,9 @@
 # - View metrics from `sls metrics`
 ###############################################################################
 resource "aws_iam_policy" "admin" {
-  name   = "${local.tf_group_admin_name}"
+  name   = local.tf_group_admin_name
   path   = "/"
-  policy = "${data.aws_iam_policy_document.admin.json}"
+  policy = data.aws_iam_policy_document.admin.json
 }
 
 data "aws_iam_policy_document" "admin" {
@@ -33,8 +33,16 @@ data "aws_iam_policy_document" "admin" {
       "cloudformation:DeleteStack",
     ]
 
+    # TF-UPGRADE-TODO: In Terraform v0.10 and earlier, it was sometimes necessary to
+    # force an interpolation expression to be interpreted as a list by wrapping it
+    # in an extra set of list brackets. That form was supported for compatibility in
+    # v0.11, but is no longer supported in Terraform v0.12.
+    #
+    # If the expression in the following list itself returns a list, remove the
+    # brackets to avoid interpretation as a list of lists. If the expression
+    # returns a single list item then leave it as-is and remove this TODO comment.
     resources = [
-      "${local.sls_cloudformation_arn}",
+      local.sls_cloudformation_arn,
     ]
   }
 
@@ -48,8 +56,16 @@ data "aws_iam_policy_document" "admin" {
       "s3:PutEncryptionConfiguration",
     ]
 
+    # TF-UPGRADE-TODO: In Terraform v0.10 and earlier, it was sometimes necessary to
+    # force an interpolation expression to be interpreted as a list by wrapping it
+    # in an extra set of list brackets. That form was supported for compatibility in
+    # v0.11, but is no longer supported in Terraform v0.12.
+    #
+    # If the expression in the following list itself returns a list, remove the
+    # brackets to avoid interpretation as a list of lists. If the expression
+    # returns a single list item then leave it as-is and remove this TODO comment.
     resources = [
-      "${local.sls_deploy_bucket_arn}",
+      local.sls_deploy_bucket_arn,
     ]
   }
 
@@ -66,8 +82,16 @@ data "aws_iam_policy_document" "admin" {
       "iam:DeleteRolePolicy",
     ]
 
+    # TF-UPGRADE-TODO: In Terraform v0.10 and earlier, it was sometimes necessary to
+    # force an interpolation expression to be interpreted as a list by wrapping it
+    # in an extra set of list brackets. That form was supported for compatibility in
+    # v0.11, but is no longer supported in Terraform v0.12.
+    #
+    # If the expression in the following list itself returns a list, remove the
+    # brackets to avoid interpretation as a list of lists. If the expression
+    # returns a single list item then leave it as-is and remove this TODO comment.
     resources = [
-      "${local.lambda_role_iam_arn}",
+      local.lambda_role_iam_arn,
     ]
   }
 
@@ -80,8 +104,16 @@ data "aws_iam_policy_document" "admin" {
       "events:Delete*",
     ]
 
+    # TF-UPGRADE-TODO: In Terraform v0.10 and earlier, it was sometimes necessary to
+    # force an interpolation expression to be interpreted as a list by wrapping it
+    # in an extra set of list brackets. That form was supported for compatibility in
+    # v0.11, but is no longer supported in Terraform v0.12.
+    #
+    # If the expression in the following list itself returns a list, remove the
+    # brackets to avoid interpretation as a list of lists. If the expression
+    # returns a single list item then leave it as-is and remove this TODO comment.
     resources = [
-      "${local.sls_events_arn}",
+      local.sls_events_arn,
     ]
   }
 
@@ -99,3 +131,4 @@ data "aws_iam_policy_document" "admin" {
     ]
   }
 }
+

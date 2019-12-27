@@ -4,7 +4,7 @@
 resource "aws_iam_policy" "cd_lambdas" {
   name   = "${local.tf_service_name}-${local.stage}-cd-lambdas"
   path   = "/"
-  policy = data.aws_iam_policy_document.cd_lambdas.json
+  policy = "${data.aws_iam_policy_document.cd_lambdas.json}"
 }
 
 data "aws_iam_policy_document" "cd_lambdas" {
@@ -36,7 +36,7 @@ data "aws_iam_policy_document" "cd_lambdas" {
     ]
 
     resources = [
-      local.sls_lambda_arn,
+      "${local.sls_lambda_arn}",
     ]
   }
 
@@ -48,7 +48,7 @@ data "aws_iam_policy_document" "cd_lambdas" {
     ]
 
     resources = [
-      local.lambda_role_iam_arn,
+      "${local.lambda_role_iam_arn}",
     ]
   }
 
@@ -60,7 +60,7 @@ data "aws_iam_policy_document" "cd_lambdas" {
     ]
 
     resources = [
-      local.sls_log_stream_all_arn,
+      "${local.sls_log_stream_all_arn}",
     ]
   }
 
@@ -73,8 +73,7 @@ data "aws_iam_policy_document" "cd_lambdas" {
     ]
 
     resources = [
-      local.sls_log_stream_arn,
+      "${local.sls_log_stream_arn}",
     ]
   }
 }
-

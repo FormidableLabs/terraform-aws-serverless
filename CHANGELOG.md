@@ -1,6 +1,9 @@
 Changes
 =======
 
+## 0.8.8
+
+* Additional permissions needed to allow teardown of Serverless CloudFormation stack. Add `ec2:DescribeNetworkInterfaces` to `vpc/policy-developer`. Add `s3:DeleteBucketPolicy` to `policy-admin`.
 
 ## 0.8.7
 

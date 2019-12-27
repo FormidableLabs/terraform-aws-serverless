@@ -13,60 +13,61 @@
 
 # admin
 resource "aws_iam_group" "admin" {
-  count = "${local.opt_disable_groups ? 0 : 1}"
-  name  = "${local.tf_group_admin_name}"
+  count = local.opt_disable_groups ? 0 : 1
+  name  = local.tf_group_admin_name
 }
 
 resource "aws_iam_group_policy_attachment" "admin_admin" {
-  count      = "${local.opt_disable_groups ? 0 : 1}"
-  group      = "${element(aws_iam_group.admin.*.name, count.index)}"
-  policy_arn = "${aws_iam_policy.admin.arn}"
+  count      = local.opt_disable_groups ? 0 : 1
+  group      = element(aws_iam_group.admin.*.name, count.index)
+  policy_arn = aws_iam_policy.admin.arn
 }
 
 resource "aws_iam_group_policy_attachment" "admin_cd_lambdas" {
-  count      = "${local.opt_disable_groups ? 0 : 1}"
-  group      = "${element(aws_iam_group.admin.*.name, count.index)}"
-  policy_arn = "${aws_iam_policy.cd_lambdas.arn}"
+  count      = local.opt_disable_groups ? 0 : 1
+  group      = element(aws_iam_group.admin.*.name, count.index)
+  policy_arn = aws_iam_policy.cd_lambdas.arn
 }
 
 resource "aws_iam_group_policy_attachment" "admin_developer" {
-  count      = "${local.opt_disable_groups ? 0 : 1}"
-  group      = "${element(aws_iam_group.admin.*.name, count.index)}"
-  policy_arn = "${aws_iam_policy.developer.arn}"
+  count      = local.opt_disable_groups ? 0 : 1
+  group      = element(aws_iam_group.admin.*.name, count.index)
+  policy_arn = aws_iam_policy.developer.arn
 }
 
 # ci
 resource "aws_iam_group" "ci" {
-  count = "${local.opt_disable_groups ? 0 : 1}"
-  name  = "${local.tf_group_ci_name}"
+  count = local.opt_disable_groups ? 0 : 1
+  name  = local.tf_group_ci_name
 }
 
 resource "aws_iam_group_policy_attachment" "ci_developer" {
-  count      = "${local.opt_disable_groups ? 0 : 1}"
-  group      = "${element(aws_iam_group.ci.*.name, count.index)}"
-  policy_arn = "${aws_iam_policy.developer.arn}"
+  count      = local.opt_disable_groups ? 0 : 1
+  group      = element(aws_iam_group.ci.*.name, count.index)
+  policy_arn = aws_iam_policy.developer.arn
 }
 
 resource "aws_iam_group_policy_attachment" "ci_cd_lambdas" {
-  count      = "${!local.opt_disable_groups && local.opt_many_lambdas ? 1 : 0}"
-  group      = "${element(aws_iam_group.ci.*.name, count.index)}"
-  policy_arn = "${aws_iam_policy.cd_lambdas.arn}"
+  count      = false == local.opt_disable_groups && local.opt_many_lambdas ? 1 : 0
+  group      = element(aws_iam_group.ci.*.name, count.index)
+  policy_arn = aws_iam_policy.cd_lambdas.arn
 }
 
 # developer
 resource "aws_iam_group" "developer" {
-  count = "${local.opt_disable_groups ? 0 : 1}"
-  name  = "${local.tf_group_developer_name}"
+  count = local.opt_disable_groups ? 0 : 1
+  name  = local.tf_group_developer_name
 }
 
 resource "aws_iam_group_policy_attachment" "developer_developer" {
-  count      = "${local.opt_disable_groups ? 0 : 1}"
-  group      = "${element(aws_iam_group.developer.*.name, count.index)}"
-  policy_arn = "${aws_iam_policy.developer.arn}"
+  count      = local.opt_disable_groups ? 0 : 1
+  group      = element(aws_iam_group.developer.*.name, count.index)
+  policy_arn = aws_iam_policy.developer.arn
 }
 
 resource "aws_iam_group_policy_attachment" "developer_cd_lambdas" {
-  count      = "${!local.opt_disable_groups && local.opt_many_lambdas ? 1 : 0}"
-  group      = "${element(aws_iam_group.developer.*.name, count.index)}"
-  policy_arn = "${aws_iam_policy.cd_lambdas.arn}"
+  count      = false == local.opt_disable_groups && local.opt_many_lambdas ? 1 : 0
+  group      = element(aws_iam_group.developer.*.name, count.index)
+  policy_arn = aws_iam_policy.cd_lambdas.arn
 }
+

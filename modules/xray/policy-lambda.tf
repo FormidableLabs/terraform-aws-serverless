@@ -6,7 +6,7 @@
 resource "aws_iam_policy" "lambda_execution" {
   name   = "${local.tf_service_name}-${local.stage}-lambda-xray"
   path   = "/"
-  policy = data.aws_iam_policy_document.lambda_execution.json
+  policy = "${data.aws_iam_policy_document.lambda_execution.json}"
 }
 
 data "aws_iam_policy_document" "lambda_execution" {
@@ -24,4 +24,3 @@ data "aws_iam_policy_document" "lambda_execution" {
     ]
   }
 }
-

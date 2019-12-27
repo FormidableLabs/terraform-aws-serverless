@@ -6,9 +6,9 @@
 # - View logs and run various `serverless` commands
 ###############################################################################
 resource "aws_iam_policy" "developer" {
-  name   = "${local.tf_group_developer_name}"
+  name   = local.tf_group_developer_name
   path   = "/"
-  policy = "${data.aws_iam_policy_document.developer.json}"
+  policy = data.aws_iam_policy_document.developer.json
 }
 
 data "aws_iam_policy_document" "developer" {
@@ -38,7 +38,7 @@ data "aws_iam_policy_document" "developer" {
     ]
 
     resources = [
-      "${local.sls_cloudformation_arn}",
+      local.sls_cloudformation_arn,
     ]
   }
 
@@ -53,7 +53,7 @@ data "aws_iam_policy_document" "developer" {
     ]
 
     resources = [
-      "${local.sls_deploy_bucket_arn}",
+      local.sls_deploy_bucket_arn,
     ]
   }
 
@@ -65,7 +65,7 @@ data "aws_iam_policy_document" "developer" {
     ]
 
     resources = [
-      "${local.lambda_role_iam_arn}",
+      local.lambda_role_iam_arn,
     ]
   }
 
@@ -91,7 +91,7 @@ data "aws_iam_policy_document" "developer" {
     ]
 
     resources = [
-      "${local.sls_lambda_arn}",
+      local.sls_lambda_arn,
     ]
   }
 
@@ -106,7 +106,7 @@ data "aws_iam_policy_document" "developer" {
     ]
 
     resources = [
-      "${local.sls_layer_arn}",
+      local.sls_layer_arn,
     ]
   }
 
@@ -121,8 +121,8 @@ data "aws_iam_policy_document" "developer" {
     ]
 
     resources = [
-      "${local.sls_apigw_arn}",
-      "${local.sls_apigw_tags_arn}",
+      local.sls_apigw_arn,
+      local.sls_apigw_tags_arn,
     ]
   }
 
@@ -138,8 +138,9 @@ data "aws_iam_policy_document" "developer" {
     # Note: Need trailing `*` in `log-stream:*` to allow viewing specific logs in AWS console.
     # https://iam.cloudonaut.io/reference/logs.html
     resources = [
-      "${local.sls_log_stream_arn}",
+      local.sls_log_stream_arn,
       "${local.sls_log_stream_arn}*",
     ]
   }
 }
+

@@ -7,7 +7,7 @@
 resource "aws_iam_policy" "developer" {
   name   = "${local.tf_group_developer_name}-vpc"
   path   = "/"
-  policy = "${data.aws_iam_policy_document.developer.json}"
+  policy = data.aws_iam_policy_document.developer.json
 }
 
 data "aws_iam_policy_document" "developer" {
@@ -29,3 +29,4 @@ data "aws_iam_policy_document" "developer" {
     ]
   }
 }
+

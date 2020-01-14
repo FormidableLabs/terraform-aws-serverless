@@ -1,6 +1,11 @@
 Changes
 =======
 
+## UNRELEASED
+
+* **BREAKING**: Upgrade all Terraform code to version `0.12`.
+* Add `apigateway:UpdateRestApiPolicy` permission to support newer versions of `serverless`.
+
 ## 0.8.8
 
 * Additional permissions needed to allow teardown of Serverless CloudFormation stack. Add `ec2:DescribeNetworkInterfaces` to `vpc/policy-developer`. Add `s3:DeleteBucketPolicy` to `policy-admin`.

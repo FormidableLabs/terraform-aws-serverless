@@ -12,6 +12,7 @@ Get your [serverless][] framework application to AWS, the **right way**.
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [TF Versions](#tf-versions)
 - [Overview](#overview)
 - [Concepts](#concepts)
 - [Modules](#modules)
@@ -23,6 +24,12 @@ Get your [serverless][] framework application to AWS, the **right way**.
 - [Maintenance Status](#maintenance-status)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## TF Versions
+
+v1 of this module is compatible with Terraform 0.12. Submit pull-requests to master.
+
+v0.8 of this module is compatible with Terraform 0.12 and Terraform 0.11. Submit pull-requests to terraform0.11 branch. This branch is in maintenance mode and will not be updated with new features.
 
 ## Overview
 

@@ -7,7 +7,7 @@
 resource "aws_iam_policy" "developer" {
   name   = "${local.tf_group_developer_name}-canary"
   path   = "/"
-  policy = "${data.aws_iam_policy_document.developer.json}"
+  policy = data.aws_iam_policy_document.developer.json
 }
 
 locals {
@@ -76,6 +76,7 @@ data "aws_iam_policy_document" "developer" {
   statement {
     actions = ["lambda:DeleteAlias"]
 
-    resources = ["${local.sls_lambda_arn}"]
+    resources = [local.sls_lambda_arn]
   }
 }
+

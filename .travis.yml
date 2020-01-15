@@ -9,7 +9,7 @@ branches:
 
 env:
   global:
-    - TF_VERSION=0.11.14
+    - TF_VERSION=0.12.18
 
 before_install:
   - wget https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_linux_amd64.zip -O /tmp/terraform.zip

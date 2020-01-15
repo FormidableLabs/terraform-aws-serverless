@@ -1,7 +1,7 @@
 Changes
 =======
 
-## UNRELEASED
+## 1.0.0
 
 * **BREAKING**: Upgrade all Terraform code to version `0.12`.
 * Add `apigateway:UpdateRestApiPolicy` permission to support newer versions of `serverless`.

@@ -170,6 +170,7 @@ module "serverless" {
   # role_ci_name        = `ci`
   # opt_many_lambdas    = false
   # opt_disable_groups  = false
+  # tags = {}
 }
 ```
 

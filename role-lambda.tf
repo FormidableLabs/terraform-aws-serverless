@@ -80,4 +80,3 @@ STACK
 
   tags = local.tags
 }
-

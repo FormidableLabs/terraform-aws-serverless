@@ -89,6 +89,7 @@ variable "opt_disable_groups" {
 
 variable "tags" {
   description = "Custom tags to provide to all resources that accept tags."
+  type        = map(string)
   default = {
     "Service" = var.service_name,
     "Stage"   = var.stage

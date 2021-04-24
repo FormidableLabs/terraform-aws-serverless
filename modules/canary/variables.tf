@@ -87,6 +87,15 @@ variable "opt_disable_groups" {
   default     = false
 }
 
+variable "tags" {
+  description = "Custom tags to provide to all resources that accept tags."
+  type        = map(string)
+  default = {
+    "Service" = var.service_name,
+    "Stage"   = var.stage
+  }
+}
+
 data "aws_partition" "current" {
 }
 
@@ -115,10 +124,7 @@ locals {
   opt_many_lambdas    = var.opt_many_lambdas
   opt_disable_groups  = var.opt_disable_groups
 
-  tags = {
-    "Service" = var.service_name
-    "Stage"   = var.stage
-  }
+  tags = var.tags
 }
 
 # Capture repeated/complicated AWS IAM resources to a single location.
@@ -185,4 +191,3 @@ locals {
   # Needed for `logs:DescribeLogGroups`
   sls_log_stream_all_arn = "arn:${local.iam_partition}:logs:${local.iam_region}:${local.iam_account_id}:log-group::log-stream:"
 }
-

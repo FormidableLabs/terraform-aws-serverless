@@ -251,19 +251,4 @@ The main upshot of this is after attachment, a given AWS user has the minimum ne
 
 ## Maintenance Status
 
-**Active:** Formidable is actively working on this project, and we expect to continue for work for the foreseeable future. Bug reports, feature requests and pull requests are welcome.
-
-[serverless]: https://serverless.com/
-[Terraform]: https://www.terraform.io
-[AWS region]: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html#cfn-pseudo-param-region
-[AWS partition]: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html#cfn-pseudo-param-partition
-[AWS account ID]: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html#cfn-pseudo-param-accountid
-[AWS X-Ray]: https://aws.amazon.com/xray/
-[AWS VPC]: https://aws.amazon.com/vpc/
-
-[maintenance-image]: https://img.shields.io/badge/maintenance-active-green.svg
-[tf_img]: https://img.shields.io/badge/terraform-published-blue.svg
-[tf_site]: https://registry.terraform.io/modules/FormidableLabs/serverless/aws
-[trav_img]: https://api.travis-ci.com/FormidableLabs/terraform-aws-serverless.svg
-[trav_site]: https://travis-ci.com/FormidableLabs/terraform-aws-serverless
-[ref_project]: https://github.com/FormidableLabs/aws-lambda-serverless-reference
+**Stable:** Formidable is not planning to develop any new features for this project. We are still responding to bug reports and security concerns. We are still welcoming PRs for this project, but PRs that include new features should be small and easy to integrate and should not include breaking changes.

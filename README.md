@@ -1,3 +1,5 @@
+[![Terraform Provider Serverless — Formidable, We build the modern web](./terraform-provider-serverless-Hero.png)](https://formidable.com/open-source/)
+
 AWS Serverless Module
 =====================
 [![Terraform][tf_img]][tf_site]

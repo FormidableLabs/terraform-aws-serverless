@@ -1,4 +1,4 @@
-[![Terraform Provider Serverless — Formidable, We build the modern web](./terraform-provider-serverless-Hero.png)](https://formidable.com/open-source/)
+[![Terraform Provider Serverless — Formidable, We build the modern web](https://raw.githubusercontent.com/FormidableLabs/terraform-aws-serverless/master/terraform-aws-serverless-Hero.png)](https://formidable.com/open-source/)
 
 AWS Serverless Module
 =====================
